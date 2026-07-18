@@ -1,40 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Globe, MapPin, Ticket, ShieldCheck, CheckCircle, Sparkles, UserCheck, X } from 'lucide-react';
-import { venues } from '../data/matchData';
+import { Globe, MapPin, Ticket, ShieldCheck, CheckCircle, Sparkles, UserCheck, X, Calendar, Clock, Trophy } from 'lucide-react';
+import { venues, getTodaysMatches, getUpcomingMatches, getLiveMatches, getVenue, getMatchStatusDisplay, formatDate } from '../data/matchData';
 
 export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }) {
   const [language, setLanguage] = useState('en');
-  const [venueId, setVenueId] = useState('metlife');
+  const [selectedMatchId, setSelectedMatchId] = useState(null);
   const [isStaff, setIsStaff] = useState(false);
-  const [section, setSection] = useState('114');
-  const [row, setRow] = useState('12');
-  const [seat, setSeat] = useState('15');
+  const [section, setSection] = useState('');
+  const [row, setRow] = useState('');
+  const [seat, setSeat] = useState('');
+
+  // Compute today's matches + live matches + next upcoming
+  const todaysMatches = getTodaysMatches();
+  const liveMatches = getLiveMatches();
+  const upcomingMatches = getUpcomingMatches().slice(0, 3);
+
+  // Build the "available matches" list: today's matches first, then upcoming
+  const availableMatches = [
+    ...todaysMatches.filter(m => m.status === 'live'),
+    ...todaysMatches.filter(m => m.status === 'upcoming'),
+    ...todaysMatches.filter(m => m.status === 'completed'),
+    ...upcomingMatches.filter(m => !todaysMatches.find(t => t.id === m.id)),
+  ];
 
   useEffect(() => {
     if (isOpen) {
       const storedLang = localStorage.getItem('stadiaiq_lang') || 'en';
-      const storedVenue = localStorage.getItem('stadiaiq_venue') || 'metlife';
       const storedStaff = localStorage.getItem('stadiaiq_is_staff') === 'true';
-      const storedSec = localStorage.getItem('stadiaiq_sec') || '114';
-      const storedRow = localStorage.getItem('stadiaiq_row') || '12';
-      const storedSeat = localStorage.getItem('stadiaiq_seat') || '15';
+      const storedSec = localStorage.getItem('stadiaiq_sec') || '';
+      const storedRow = localStorage.getItem('stadiaiq_row') || '';
+      const storedSeat = localStorage.getItem('stadiaiq_seat') || '';
+      const storedMatch = localStorage.getItem('stadiaiq_match_id') || null;
 
       setLanguage(storedLang);
-      setVenueId(storedVenue);
       setIsStaff(storedStaff);
       setSection(storedSec);
       setRow(storedRow);
       setSeat(storedSeat);
+
+      // Auto-select: stored match > first live match > first today's match > first upcoming
+      if (storedMatch && availableMatches.find(m => m.id === storedMatch)) {
+        setSelectedMatchId(storedMatch);
+      } else if (liveMatches.length > 0) {
+        setSelectedMatchId(liveMatches[0].id);
+      } else if (todaysMatches.length > 0) {
+        setSelectedMatchId(todaysMatches[0].id);
+      } else if (upcomingMatches.length > 0) {
+        setSelectedMatchId(upcomingMatches[0].id);
+      }
     }
   }, [isOpen]);
 
   if (!isOpen) return null;
 
+  const selectedMatch = availableMatches.find(m => m.id === selectedMatchId);
+  const selectedVenue = selectedMatch ? getVenue(selectedMatch.venue) : null;
+
   const handleSave = (e) => {
     e.preventDefault();
+    const match = selectedMatch;
+    const venue = selectedVenue;
+
     const prefs = {
       language,
-      venueId,
+      matchId: match?.id || null,
+      venueId: venue?.id || 'metlife',
       isStaff,
       section: isStaff ? 'Staff Ops' : (section.trim() || '101'),
       row: isStaff ? 'N/A' : (row.trim() || '1'),
@@ -43,6 +73,7 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
     };
 
     localStorage.setItem('stadiaiq_lang', prefs.language);
+    localStorage.setItem('stadiaiq_match_id', prefs.matchId || '');
     localStorage.setItem('stadiaiq_venue', prefs.venueId);
     localStorage.setItem('stadiaiq_is_staff', prefs.isStaff ? 'true' : 'false');
     localStorage.setItem('stadiaiq_sec', prefs.section);
@@ -50,37 +81,35 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
     localStorage.setItem('stadiaiq_seat', prefs.seat);
     localStorage.setItem('stadiaiq_setup_completed', 'true');
 
-    if (onSavePreferences) {
-      onSavePreferences(prefs);
-    }
+    if (onSavePreferences) onSavePreferences(prefs);
     onClose();
   };
 
   const languages = [
     { code: 'en', flag: '🇺🇸', name: 'English', desc: 'Default Match-Day Experience' },
-    { code: 'es', flag: '🇲🇽', name: 'Español (Spanish)', desc: 'Experiencia Oficial FIFA en Español' },
-    { code: 'fr', flag: '🇫🇷', name: 'Français (French)', desc: 'Assistance IA & Guide en Français' },
-    { code: 'pt', flag: '🇧🇷', name: 'Português (Portuguese)', desc: 'Navegação e Suporte em Português' },
+    { code: 'es', flag: '🇲🇽', name: 'Español', desc: 'Experiencia Oficial FIFA en Español' },
+    { code: 'fr', flag: '🇫🇷', name: 'Français', desc: 'Assistance IA & Guide en Français' },
+    { code: 'pt', flag: '🇧🇷', name: 'Português', desc: 'Navegação e Suporte em Português' },
   ];
 
-  const allVenues = Object.values(venues);
+  const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
   return (
     <div style={{
       position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(15, 23, 42, 0.82)', backdropFilter: 'blur(8px)',
+      background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(10px)',
       zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '1rem', animation: 'fadeIn 0.25s ease-out'
     }}>
       <div className="card" style={{
-        maxWidth: '680px', width: '100%', maxHeight: '92vh', overflowY: 'auto',
-        background: 'var(--bg-card)', borderRadius: '20px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.35)',
+        maxWidth: '720px', width: '100%', maxHeight: '94vh', overflowY: 'auto',
+        background: 'var(--bg-card)', borderRadius: '20px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.4)',
         border: '1px solid var(--color-gray-200)', overflow: 'hidden'
       }}>
         {/* Header Banner */}
         <div style={{
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #0f172a 100%)',
-          padding: '1.75rem', color: 'white', position: 'relative'
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #0f172a 100%)',
+          padding: '1.5rem 1.75rem', color: 'white', position: 'relative'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -88,167 +117,215 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
                 width: '48px', height: '48px', borderRadius: '12px',
                 background: 'rgba(245, 158, 11, 0.2)', border: '1px solid rgba(245, 158, 11, 0.4)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem'
-              }}>
-                🏆
-              </div>
+              }}>🏆</div>
               <div>
-                <div style={{ fontSize: '0.72rem', fontWeight: 800, letterSpacing: '1px', color: 'var(--color-gold)', textTransform: 'uppercase' }}>
-                  FIFA World Cup 2026™ • StadiaIQ Portal
+                <div style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '1px', color: '#f59e0b', textTransform: 'uppercase' }}>
+                  FIFA World Cup 2026™ • StadiaIQ
                 </div>
-                <h2 style={{ fontSize: '1.45rem', fontWeight: 900, margin: '2px 0 0 0', lineHeight: 1.2 }}>
-                  Welcome Fan Check-In & Setup
+                <h2 style={{ fontSize: '1.35rem', fontWeight: 900, margin: '2px 0 0 0', lineHeight: 1.2 }}>
+                  Match-Day Check-In
                 </h2>
               </div>
             </div>
             {localStorage.getItem('stadiaiq_setup_completed') === 'true' && (
-              <button onClick={onClose} style={{ color: 'white', opacity: 0.8, cursor: 'pointer', background: 'rgba(255,255,255,0.15)', padding: '6px', borderRadius: '8px' }}>
+              <button onClick={onClose} style={{ color: 'white', opacity: 0.8, cursor: 'pointer', background: 'rgba(255,255,255,0.15)', padding: '6px', borderRadius: '8px', border: 'none' }}>
                 <X size={20} />
               </button>
             )}
           </div>
-          <p style={{ fontSize: '0.85rem', opacity: 0.9, marginTop: '0.65rem', lineHeight: 1.4 }}>
-            Customize your language and seating location so our **Groq Llama-3.3 AI Engine** can provide hyper-personalized step-free routes, closest concourse gates, and instant multilingual wayfinding.
+          <p style={{ fontSize: '0.82rem', opacity: 0.9, marginTop: '0.5rem', lineHeight: 1.4, maxWidth: '540px' }}>
+            Select your match and we'll auto-configure the venue, weather telemetry, routes, and crowd monitoring for you.
           </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '0.5rem', fontSize: '0.75rem', opacity: 0.85 }}>
+            <Calendar size={13} />
+            <span>{todayStr}</span>
+          </div>
         </div>
 
-        <form onSubmit={handleSave} style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          {/* STEP 1: Language Preference */}
+        <form onSubmit={handleSave} style={{ padding: '1.5rem 1.75rem', display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
+
+          {/* ── STEP 1: SELECT YOUR MATCH ── */}
           <div>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.65rem' }}>
-              <Globe size={16} style={{ color: 'var(--color-primary-light)' }} /> 1. Choose Your Preferred Language
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+              <Trophy size={15} style={{ color: '#f59e0b' }} /> 1. Which Match Are You Attending?
             </label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.65rem' }}>
+
+            {todaysMatches.length > 0 && (
+              <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-primary-light)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span className="live-dot" style={{ width: 6, height: 6 }}></span>
+                {todaysMatches.filter(m => m.status === 'live').length > 0 ? 'LIVE MATCHES TODAY' : 'MATCHES TODAY'} — {todayStr.split(',')[0]}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
+              {availableMatches.map(match => {
+                const venue = getVenue(match.venue);
+                const statusDisplay = getMatchStatusDisplay(match);
+                const isSelected = selectedMatchId === match.id;
+                const isToday = todaysMatches.find(t => t.id === match.id);
+                const isLive = match.status === 'live';
+
+                return (
+                  <div
+                    key={match.id}
+                    onClick={() => setSelectedMatchId(match.id)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '0.75rem',
+                      padding: '0.75rem 1rem', borderRadius: '12px', cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      border: isSelected
+                        ? '2px solid var(--color-primary-light)'
+                        : isLive
+                          ? '2px solid #ef4444'
+                          : '1px solid var(--color-gray-200)',
+                      background: isSelected
+                        ? 'rgba(37, 99, 235, 0.06)'
+                        : isLive
+                          ? 'rgba(239, 68, 68, 0.04)'
+                          : 'var(--color-gray-50)',
+                      position: 'relative', overflow: 'hidden'
+                    }}
+                  >
+                    {isLive && (
+                      <div style={{
+                        position: 'absolute', top: 0, left: 0, width: '4px', height: '100%',
+                        background: 'linear-gradient(180deg, #ef4444, #f59e0b)', borderRadius: '4px 0 0 4px'
+                      }} />
+                    )}
+                    <div style={{ flex: 1, paddingLeft: isLive ? '0.5rem' : 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        <span style={{ fontWeight: 800, fontSize: '1rem', color: 'var(--text-primary)' }}>
+                          {match.teamA} <span style={{ fontWeight: 400, color: 'var(--text-muted)', fontSize: '0.85rem' }}>vs</span> {match.teamB}
+                        </span>
+                        <span className={`badge badge--${statusDisplay.color}`} style={{ fontSize: '0.65rem' }}>
+                          {isLive && <span className="badge__dot"></span>}
+                          {statusDisplay.label}
+                        </span>
+                        {isToday && !isLive && match.status !== 'completed' && (
+                          <span className="badge badge--info" style={{ fontSize: '0.6rem' }}>TODAY</span>
+                        )}
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '3px', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                          <Trophy size={11} /> {match.round}
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                          <MapPin size={11} /> {venue?.name}, {venue?.city?.split(',')[0]}
+                        </span>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                          <Clock size={11} /> {formatDate(match.date)} • {match.time} ET
+                        </span>
+                      </div>
+                    </div>
+                    {isSelected && <CheckCircle size={20} style={{ color: 'var(--color-primary-light)', flexShrink: 0 }} />}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Auto-Configuration Notice */}
+            {selectedVenue && (
+              <div style={{
+                marginTop: '0.65rem', padding: '0.6rem 0.85rem', borderRadius: '10px',
+                background: 'rgba(37, 99, 235, 0.06)', border: '1px dashed var(--color-primary-light)',
+                display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.75rem', color: 'var(--text-primary)'
+              }}>
+                <Sparkles size={16} style={{ color: '#f59e0b', flexShrink: 0 }} />
+                <span>
+                  <strong>Auto-configured:</strong> Weather, routes, crowd monitoring, and AI wayfinding will be set to <strong>{selectedVenue.name}</strong> ({selectedVenue.city}).
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* ── STEP 2: LANGUAGE ── */}
+          <div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.55rem' }}>
+              <Globe size={15} style={{ color: 'var(--color-primary-light)' }} /> 2. Preferred Language
+            </label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(155px, 1fr))', gap: '0.5rem' }}>
               {languages.map(lang => (
                 <div
                   key={lang.code}
                   onClick={() => setLanguage(lang.code)}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem',
-                    borderRadius: '12px', cursor: 'pointer', transition: 'all 0.2s ease',
+                    display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '0.6rem 0.85rem',
+                    borderRadius: '10px', cursor: 'pointer', transition: 'all 0.2s ease',
                     border: language === lang.code ? '2px solid var(--color-primary-light)' : '1px solid var(--color-gray-200)',
                     background: language === lang.code ? 'rgba(37, 99, 235, 0.06)' : 'var(--color-gray-50)'
                   }}
                 >
-                  <span style={{ fontSize: '1.6rem' }}>{lang.flag}</span>
+                  <span style={{ fontSize: '1.3rem' }}>{lang.flag}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 800, fontSize: '0.95rem', color: language === lang.code ? 'var(--color-primary-dark)' : 'var(--text-primary)' }}>
+                    <div style={{ fontWeight: 800, fontSize: '0.88rem', color: language === lang.code ? 'var(--color-primary-dark)' : 'var(--text-primary)' }}>
                       {lang.name}
                     </div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{lang.desc}</div>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', lineHeight: 1.2 }}>{lang.desc}</div>
                   </div>
-                  {language === lang.code && <CheckCircle size={18} style={{ color: 'var(--color-primary-light)' }} />}
+                  {language === lang.code && <CheckCircle size={16} style={{ color: 'var(--color-primary-light)' }} />}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* STEP 2: Host Stadium Selection */}
-          <div>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-              <MapPin size={16} style={{ color: 'var(--color-primary-light)' }} /> 2. Select Your Host Stadium Today
-            </label>
-            <select
-              className="select"
-              value={venueId}
-              onChange={(e) => setVenueId(e.target.value)}
-              style={{ fontWeight: 700, fontSize: '0.95rem', padding: '0.75rem 1rem' }}
-            >
-              {allVenues.map(v => (
-                <option key={v.id} value={v.id}>
-                  {v.country} — {v.name} ({v.city}) • Cap: {v.capacity}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* STEP 3: Seating Details / Staff Toggle */}
-          <div style={{ background: 'var(--color-gray-50)', padding: '1.25rem', borderRadius: '14px', border: '1px solid var(--color-gray-200)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.85rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                <Ticket size={16} style={{ color: 'var(--color-primary-light)' }} /> 3. Seat Location or Fan Pass
+          {/* ── STEP 3: SEATING / STAFF ── */}
+          <div style={{ background: 'var(--color-gray-50)', padding: '1.1rem', borderRadius: '12px', border: '1px solid var(--color-gray-200)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                <Ticket size={15} style={{ color: 'var(--color-primary-light)' }} /> 3. Seat Location
               </label>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <button
-                  type="button"
-                  onClick={() => setIsStaff(false)}
+              <div style={{ display: 'flex', gap: '0.4rem' }}>
+                <button type="button" onClick={() => setIsStaff(false)}
                   className={`btn btn--sm ${!isStaff ? 'btn--primary' : 'btn--secondary'}`}
-                  style={{ fontSize: '0.72rem', padding: '0.25rem 0.65rem' }}
-                >
-                  🎫 Ticketed Fan Seat
+                  style={{ fontSize: '0.7rem', padding: '0.2rem 0.55rem' }}>
+                  🎫 Fan
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setIsStaff(true)}
+                <button type="button" onClick={() => setIsStaff(true)}
                   className={`btn btn--sm ${isStaff ? 'btn--primary' : 'btn--secondary'}`}
-                  style={{ fontSize: '0.72rem', padding: '0.25rem 0.65rem' }}
-                >
-                  🛡️ Venue Staff / Volunteer
+                  style={{ fontSize: '0.7rem', padding: '0.2rem 0.55rem' }}>
+                  🛡️ Staff
                 </button>
               </div>
             </div>
 
             {!isStaff ? (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.6rem' }}>
                 <div>
-                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '4px' }}>SECTION / BAY</label>
-                  <input
-                    type="text"
-                    className="input"
-                    value={section}
-                    onChange={(e) => setSection(e.target.value)}
-                    placeholder="e.g. 114"
-                    style={{ fontWeight: 700, textAlign: 'center' }}
-                  />
+                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>SECTION</label>
+                  <input type="text" className="input" value={section} onChange={(e) => setSection(e.target.value)}
+                    placeholder="e.g. 114" style={{ fontWeight: 700, textAlign: 'center' }} />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '4px' }}>ROW</label>
-                  <input
-                    type="text"
-                    className="input"
-                    value={row}
-                    onChange={(e) => setRow(e.target.value)}
-                    placeholder="e.g. 12"
-                    style={{ fontWeight: 700, textAlign: 'center' }}
-                  />
+                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>ROW</label>
+                  <input type="text" className="input" value={row} onChange={(e) => setRow(e.target.value)}
+                    placeholder="e.g. 12" style={{ fontWeight: 700, textAlign: 'center' }} />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '4px' }}>SEAT NUMBER</label>
-                  <input
-                    type="text"
-                    className="input"
-                    value={seat}
-                    onChange={(e) => setSeat(e.target.value)}
-                    placeholder="e.g. 15"
-                    style={{ fontWeight: 700, textAlign: 'center' }}
-                  />
+                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>SEAT</label>
+                  <input type="text" className="input" value={seat} onChange={(e) => setSeat(e.target.value)}
+                    placeholder="e.g. 15" style={{ fontWeight: 700, textAlign: 'center' }} />
                 </div>
               </div>
             ) : (
-              <div style={{ padding: '0.85rem', background: 'rgba(37,99,235,0.06)', borderRadius: '10px', border: '1px dashed var(--color-primary-light)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <UserCheck size={24} style={{ color: 'var(--color-primary-light)' }} />
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>
-                  <strong>Staff Operational Mode Activated:</strong> You will have direct priority access to the Operations Triage log and instant PA Emergency Broadcast controls.
+              <div style={{ padding: '0.75rem', background: 'rgba(37,99,235,0.06)', borderRadius: '10px', border: '1px dashed var(--color-primary-light)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <UserCheck size={22} style={{ color: 'var(--color-primary-light)' }} />
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-primary)' }}>
+                  <strong>Staff Mode:</strong> Full access to Operations Triage, PA Broadcasts, and Crowd Control dashboards.
                 </div>
               </div>
             )}
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-              <Sparkles size={13} style={{ color: 'var(--color-gold)' }} />
-              <span>StadiaIQ uses your exact seat coordinates to calculate custom walking paths and closest amenity bays.</span>
-            </div>
           </div>
 
-          {/* Action Footer */}
-          <button
-            type="submit"
-            className="btn btn--primary"
-            style={{
-              height: '52px', fontSize: '1.05rem', fontWeight: 800, borderRadius: '12px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem',
-              boxShadow: '0 4px 14px 0 rgba(37, 99, 235, 0.39)', cursor: 'pointer'
-            }}
-          >
-            <ShieldCheck size={20} /> Enter StadiaIQ — Start My Match-Day Experience 🚀
+          {/* Save Button */}
+          <button type="submit" className="btn btn--primary" style={{
+            height: '50px', fontSize: '1rem', fontWeight: 800, borderRadius: '12px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+            boxShadow: '0 4px 14px rgba(37, 99, 235, 0.35)', cursor: 'pointer'
+          }}>
+            <ShieldCheck size={18} />
+            {selectedMatch
+              ? `Enter ${selectedMatch.teamA.split(' ').pop()} vs ${selectedMatch.teamB.split(' ').pop()} — Go Live 🚀`
+              : 'Enter StadiaIQ 🚀'}
           </button>
         </form>
       </div>

@@ -5,7 +5,7 @@
 
 import { getGlobalTelemetry } from './telemetryBus';
 import { fetchLiveWeather } from './liveWeather';
-import { getVenue } from './matchData';
+import { getVenue, getMatchById } from './matchData';
 
 const venueResponses = {
   navigation: {
@@ -105,8 +105,22 @@ export async function generateAIResponseAsync(query, venueId = 'metlife', chatHi
       ? "User Profile: Official Venue Staff / Operations Team Member."
       : `User Seating Coordinates: Section ${userSec}, Row ${userRow}, Seat ${userSeat}.`;
 
+    // Inject active match context
+    const activeMatchId = localStorage.getItem('stadiaiq_match_id');
+    let matchContextText = 'No active match selected.';
+    if (activeMatchId) {
+      const activeMatch = getMatchById(activeMatchId);
+      if (activeMatch) {
+        const scoreText = activeMatch.scoreA !== null ? `Score: ${activeMatch.scoreA}-${activeMatch.scoreB}` : 'Score: Not yet started';
+        matchContextText = `Active Match: ${activeMatch.teamA} vs ${activeMatch.teamB} | ${activeMatch.round} | Status: ${activeMatch.status.toUpperCase()} | ${scoreText} | ${activeMatch.note || ''} | Kickoff: ${activeMatch.time} ET on ${activeMatch.date}`;
+      }
+    }
+
     const systemPrompt = `You are StadiaIQ, the real-time AI operational assistant for the FIFA World Cup 2026.
 You are currently providing live intelligence for: ${venue.name} in ${venue.city}.
+
+=== ACTIVE MATCH CONTEXT ===
+• ${matchContextText}
 
 === USER PROFILE & SEATING COORDINATES ===
 • ${userProfileText}
@@ -122,7 +136,7 @@ When the user asks for directions to restrooms, concessions, gates, or seats, TA
 
 === INSTRUCTIONS ===
 1. Answer the user concisely, clearly, and authoritatively using markdown formatting.
-2. ALWAYS reference specific live telemetry numbers and the user's seating location when answering wayfinding, transport, or crowd questions.
+2. ALWAYS reference specific live telemetry numbers, the active match context, and the user's seating location when answering wayfinding, transport, or crowd questions.
 3. Respond in ${langNames[lang] || 'English'}. If the user asks in Spanish, French, or Portuguese, respond fluently in that exact language.
 4. Keep answers under 180 words for fast mobile readability.`;
 

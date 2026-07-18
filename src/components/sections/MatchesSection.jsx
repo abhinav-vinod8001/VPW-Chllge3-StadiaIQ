@@ -55,6 +55,12 @@ export default function MatchesSection({ onNavigate, onSelectVenue }) {
               onChange={(e) => setRoundFilter(e.target.value)}
             >
               <option value="">All Rounds</option>
+              <option value="Group A">Group A</option>
+              <option value="Group B">Group B</option>
+              <option value="Group C">Group C</option>
+              <option value="Group D">Group D</option>
+              <option value="Group E">Group E</option>
+              <option value="Group F">Group F</option>
               <option value="Round of 16">Round of 16</option>
               <option value="Quarter Final">Quarter Final</option>
               <option value="Semi Final">Semi Final</option>

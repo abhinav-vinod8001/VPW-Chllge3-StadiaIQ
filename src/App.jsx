@@ -21,28 +21,29 @@ export default function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const [setupModalOpen, setSetupModalOpen] = useState(false);
   const [selectedVenueId, setSelectedVenueId] = useState('metlife');
+  const [selectedMatchId, setSelectedMatchId] = useState(null);
 
   useEffect(() => {
-    // Automatically open setup modal on first visit or check stored venue
     const completed = localStorage.getItem('stadiaiq_setup_completed');
     if (!completed) {
       setSetupModalOpen(true);
     } else {
       const storedVenue = localStorage.getItem('stadiaiq_venue');
+      const storedMatch = localStorage.getItem('stadiaiq_match_id');
       if (storedVenue) setSelectedVenueId(storedVenue);
+      if (storedMatch) setSelectedMatchId(storedMatch);
     }
   }, []);
 
   const handleSavePreferences = (prefs) => {
-    if (prefs?.venueId) {
-      setSelectedVenueId(prefs.venueId);
-    }
+    if (prefs?.venueId) setSelectedVenueId(prefs.venueId);
+    if (prefs?.matchId) setSelectedMatchId(prefs.matchId);
   };
 
   const renderSection = () => {
     switch (activeSection) {
       case 'home':
-        return <HomeSection onNavigate={setActiveSection} onOpenChat={() => setChatOpen(true)} selectedVenueId={selectedVenueId} />;
+        return <HomeSection onNavigate={setActiveSection} onOpenChat={() => setChatOpen(true)} selectedVenueId={selectedVenueId} selectedMatchId={selectedMatchId} />;
       case 'matches':
         return <MatchesSection onNavigate={setActiveSection} onSelectVenue={setSelectedVenueId} />;
       case 'route':
@@ -60,7 +61,7 @@ export default function App() {
       case 'operations':
         return <OperationsSection selectedVenueId={selectedVenueId} />;
       default:
-        return <HomeSection onNavigate={setActiveSection} onOpenChat={() => setChatOpen(true)} selectedVenueId={selectedVenueId} />;
+        return <HomeSection onNavigate={setActiveSection} onOpenChat={() => setChatOpen(true)} selectedVenueId={selectedVenueId} selectedMatchId={selectedMatchId} />;
     }
   };
 
@@ -80,6 +81,7 @@ export default function App() {
           onToggleChat={() => setChatOpen(!chatOpen)}
           onOpenSetupModal={() => setSetupModalOpen(true)}
           selectedVenueId={selectedVenueId}
+          selectedMatchId={selectedMatchId}
         />
 
         <main className="main__content">
