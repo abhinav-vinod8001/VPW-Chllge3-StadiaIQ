@@ -141,71 +141,47 @@ export const venues = {
 // 104 matches: 48 Group Stage + 16 R32 + 8 R16 + 4 QF + 2 SF + 3rd Place + Final
 // ============================================
 export const matches = [
-  // ── GROUP STAGE: Matchday 1 (Jun 11-14) ──
-  { id: 'GS-01', round: 'Group A', matchday: 1, date: '2026-06-11', time: '20:00', venue: 'metlife',     teamA: '🇺🇸 USA',            teamB: '🇲🇦 Morocco',        scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'GS-02', round: 'Group A', matchday: 1, date: '2026-06-12', time: '13:00', venue: 'azteca',      teamA: '🇦🇷 Argentina',      teamB: '🇶🇦 Qatar',          scoreA: 4, scoreB: 0, status: 'completed' },
-  { id: 'GS-03', round: 'Group B', matchday: 1, date: '2026-06-11', time: '17:00', venue: 'sofi',        teamA: '🇧🇷 Brazil',         teamB: '🇳🇬 Nigeria',        scoreA: 3, scoreB: 1, status: 'completed' },
-  { id: 'GS-04', round: 'Group B', matchday: 1, date: '2026-06-12', time: '16:00', venue: 'att',         teamA: '🇩🇪 Germany',        teamB: '🇨🇷 Costa Rica',     scoreA: 3, scoreB: 0, status: 'completed' },
-  { id: 'GS-05', round: 'Group C', matchday: 1, date: '2026-06-12', time: '19:00', venue: 'hardrock',    teamA: '🇫🇷 France',         teamB: '🇦🇺 Australia',      scoreA: 3, scoreB: 1, status: 'completed' },
-  { id: 'GS-06', round: 'Group C', matchday: 1, date: '2026-06-12', time: '22:00', venue: 'levis',       teamA: '🇲🇽 Mexico',         teamB: '🇸🇪 Sweden',         scoreA: 2, scoreB: 2, status: 'completed' },
-  { id: 'GS-07', round: 'Group D', matchday: 1, date: '2026-06-13', time: '13:00', venue: 'monterrey',   teamA: '🇪🇸 Spain',          teamB: '🇯🇵 Japan',          scoreA: 1, scoreB: 2, status: 'completed' },
-  { id: 'GS-08', round: 'Group D', matchday: 1, date: '2026-06-13', time: '16:00', venue: 'nrg',         teamA: '🇬🇧 England',        teamB: '🇪🇨 Ecuador',        scoreA: 2, scoreB: 0, status: 'completed' },
-  { id: 'GS-09', round: 'Group E', matchday: 1, date: '2026-06-13', time: '19:00', venue: 'mercedesbenz',teamA: '🇳🇱 Netherlands',    teamB: '🇨🇲 Cameroon',       scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'GS-10', round: 'Group E', matchday: 1, date: '2026-06-13', time: '22:00', venue: 'lumen',       teamA: '🇵🇹 Portugal',       teamB: '🇨🇦 Canada',         scoreA: 3, scoreB: 0, status: 'completed' },
-  { id: 'GS-11', round: 'Group F', matchday: 1, date: '2026-06-14', time: '13:00', venue: 'guadalajara', teamA: '🇧🇪 Belgium',        teamB: '🇸🇳 Senegal',        scoreA: 1, scoreB: 1, status: 'completed' },
-  { id: 'GS-12', round: 'Group F', matchday: 1, date: '2026-06-14', time: '16:00', venue: 'lincoln',     teamA: '🇭🇷 Croatia',        teamB: '🇰🇷 South Korea',    scoreA: 2, scoreB: 1, status: 'completed' },
+  // ── GROUP STAGE (Host Nations Assigned) ──
+  { id: 'GS-01', round: 'Group A', matchday: 1, date: '2026-06-11', time: '15:00', venue: 'azteca',      teamA: '🇲🇽 Mexico',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-02', round: 'Group A', matchday: 1, date: '2026-06-11', time: '19:00', venue: 'guadalajara', teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-03', round: 'Group B', matchday: 1, date: '2026-06-12', time: '15:00', venue: 'bmo',         teamA: '🇨🇦 Canada',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-04', round: 'Group B', matchday: 1, date: '2026-06-12', time: '19:00', venue: 'sofi',        teamA: '🇺🇸 USA',            teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  
+  { id: 'GS-33', round: 'Group B', matchday: 2, date: '2026-06-18', time: '16:00', venue: 'bc_place',    teamA: '🇨🇦 Canada',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-34', round: 'Group A', matchday: 2, date: '2026-06-18', time: '19:00', venue: 'azteca',      teamA: '🇲🇽 Mexico',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-35', round: 'Group B', matchday: 2, date: '2026-06-19', time: '16:00', venue: 'lumen',       teamA: '🇺🇸 USA',            teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
 
-  // ── GROUP STAGE: Matchday 2 (Jun 15-18) ──
-  { id: 'GS-13', round: 'Group A', matchday: 2, date: '2026-06-15', time: '16:00', venue: 'metlife',     teamA: '🇺🇸 USA',            teamB: '🇶🇦 Qatar',          scoreA: 3, scoreB: 0, status: 'completed' },
-  { id: 'GS-14', round: 'Group A', matchday: 2, date: '2026-06-15', time: '19:00', venue: 'hardrock',    teamA: '🇦🇷 Argentina',      teamB: '🇲🇦 Morocco',        scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'GS-15', round: 'Group B', matchday: 2, date: '2026-06-15', time: '22:00', venue: 'sofi',        teamA: '🇧🇷 Brazil',         teamB: '🇨🇷 Costa Rica',     scoreA: 2, scoreB: 0, status: 'completed' },
-  { id: 'GS-16', round: 'Group B', matchday: 2, date: '2026-06-16', time: '13:00', venue: 'att',         teamA: '🇩🇪 Germany',        teamB: '🇳🇬 Nigeria',        scoreA: 1, scoreB: 1, status: 'completed' },
-  { id: 'GS-17', round: 'Group C', matchday: 2, date: '2026-06-16', time: '16:00', venue: 'levis',       teamA: '🇫🇷 France',         teamB: '🇸🇪 Sweden',         scoreA: 2, scoreB: 0, status: 'completed' },
-  { id: 'GS-18', round: 'Group C', matchday: 2, date: '2026-06-16', time: '19:00', venue: 'azteca',      teamA: '🇲🇽 Mexico',         teamB: '🇦🇺 Australia',      scoreA: 3, scoreB: 1, status: 'completed' },
-  { id: 'GS-19', round: 'Group D', matchday: 2, date: '2026-06-17', time: '13:00', venue: 'nrg',         teamA: '🇬🇧 England',        teamB: '🇯🇵 Japan',          scoreA: 2, scoreB: 2, status: 'completed' },
-  { id: 'GS-20', round: 'Group D', matchday: 2, date: '2026-06-17', time: '16:00', venue: 'monterrey',   teamA: '🇪🇸 Spain',          teamB: '🇪🇨 Ecuador',        scoreA: 3, scoreB: 1, status: 'completed' },
-  { id: 'GS-21', round: 'Group E', matchday: 2, date: '2026-06-17', time: '19:00', venue: 'lumen',       teamA: '🇵🇹 Portugal',       teamB: '🇨🇲 Cameroon',       scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'GS-22', round: 'Group E', matchday: 2, date: '2026-06-17', time: '22:00', venue: 'bmo',         teamA: '🇳🇱 Netherlands',    teamB: '🇨🇦 Canada',         scoreA: 3, scoreB: 1, status: 'completed' },
-  { id: 'GS-23', round: 'Group F', matchday: 2, date: '2026-06-18', time: '16:00', venue: 'lincoln',     teamA: '🇭🇷 Croatia',        teamB: '🇸🇳 Senegal',        scoreA: 1, scoreB: 0, status: 'completed' },
-  { id: 'GS-24', round: 'Group F', matchday: 2, date: '2026-06-18', time: '19:00', venue: 'guadalajara', teamA: '🇧🇪 Belgium',        teamB: '🇰🇷 South Korea',    scoreA: 2, scoreB: 0, status: 'completed' },
+  { id: 'GS-53', round: 'Group A', matchday: 3, date: '2026-06-24', time: '16:00', venue: 'guadalajara', teamA: '🇲🇽 Mexico',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-54', round: 'Group B', matchday: 3, date: '2026-06-24', time: '19:00', venue: 'bc_place',    teamA: '🇨🇦 Canada',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-55', round: 'Group B', matchday: 3, date: '2026-06-25', time: '16:00', venue: 'sofi',        teamA: '🇺🇸 USA',            teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
 
-  // ── GROUP STAGE: Matchday 3 (Jun 19-22) ──
-  { id: 'GS-25', round: 'Group A', matchday: 3, date: '2026-06-19', time: '16:00', venue: 'azteca',      teamA: '🇦🇷 Argentina',      teamB: '🇺🇸 USA',            scoreA: 1, scoreB: 1, status: 'completed' },
-  { id: 'GS-26', round: 'Group A', matchday: 3, date: '2026-06-19', time: '16:00', venue: 'gillette',    teamA: '🇲🇦 Morocco',        teamB: '🇶🇦 Qatar',          scoreA: 3, scoreB: 0, status: 'completed' },
-  { id: 'GS-27', round: 'Group B', matchday: 3, date: '2026-06-20', time: '16:00', venue: 'att',         teamA: '🇩🇪 Germany',        teamB: '🇧🇷 Brazil',         scoreA: 1, scoreB: 2, status: 'completed' },
-  { id: 'GS-28', round: 'Group B', matchday: 3, date: '2026-06-20', time: '16:00', venue: 'boa',         teamA: '🇳🇬 Nigeria',        teamB: '🇨🇷 Costa Rica',     scoreA: 2, scoreB: 0, status: 'completed' },
-  { id: 'GS-29', round: 'Group C', matchday: 3, date: '2026-06-21', time: '16:00', venue: 'hardrock',    teamA: '🇫🇷 France',         teamB: '🇲🇽 Mexico',         scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'GS-30', round: 'Group C', matchday: 3, date: '2026-06-21', time: '16:00', venue: 'bc_place',    teamA: '🇦🇺 Australia',      teamB: '🇸🇪 Sweden',         scoreA: 0, scoreB: 2, status: 'completed' },
-  { id: 'GS-31', round: 'Group D', matchday: 3, date: '2026-06-22', time: '16:00', venue: 'nrg',         teamA: '🇬🇧 England',        teamB: '🇪🇸 Spain',          scoreA: 0, scoreB: 1, status: 'completed' },
-  { id: 'GS-32', round: 'Group D', matchday: 3, date: '2026-06-22', time: '16:00', venue: 'monterrey',   teamA: '🇯🇵 Japan',          teamB: '🇪🇨 Ecuador',        scoreA: 2, scoreB: 0, status: 'completed' },
-  { id: 'GS-33', round: 'Group E', matchday: 3, date: '2026-06-22', time: '20:00', venue: 'mercedesbenz',teamA: '🇳🇱 Netherlands',    teamB: '🇵🇹 Portugal',       scoreA: 1, scoreB: 1, status: 'completed' },
-  { id: 'GS-34', round: 'Group E', matchday: 3, date: '2026-06-22', time: '20:00', venue: 'bmo',         teamA: '🇨🇦 Canada',         teamB: '🇨🇲 Cameroon',       scoreA: 1, scoreB: 0, status: 'completed' },
-  { id: 'GS-35', round: 'Group F', matchday: 3, date: '2026-06-23', time: '16:00', venue: 'guadalajara', teamA: '🇧🇪 Belgium',        teamB: '🇭🇷 Croatia',        scoreA: 0, scoreB: 1, status: 'completed' },
-  { id: 'GS-36', round: 'Group F', matchday: 3, date: '2026-06-23', time: '16:00', venue: 'lincoln',     teamA: '🇰🇷 South Korea',    teamB: '🇸🇳 Senegal',        scoreA: 2, scoreB: 1, status: 'completed' },
+  // ── ROUND OF 32 (Sample) ──
+  { id: 'R32-1', round: 'Round of 32', date: '2026-06-28', time: '13:00', venue: 'sofi',         teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R32-2', round: 'Round of 32', date: '2026-06-29', time: '13:00', venue: 'gillette',     teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
 
-  // ── ROUND OF 16 (Jun 28 - Jul 2) ──
-  { id: 'R16-1', round: 'Round of 16', date: '2026-06-28', time: '17:00', venue: 'metlife',      teamA: '🇦🇷 Argentina',   teamB: '🇳🇬 Nigeria',      scoreA: 3, scoreB: 1, status: 'completed' },
-  { id: 'R16-2', round: 'Round of 16', date: '2026-06-28', time: '21:00', venue: 'sofi',         teamA: '🇫🇷 France',      teamB: '🇰🇷 South Korea', scoreA: 2, scoreB: 0, status: 'completed' },
-  { id: 'R16-3', round: 'Round of 16', date: '2026-06-29', time: '17:00', venue: 'att',          teamA: '🇧🇷 Brazil',      teamB: '🇨🇦 Canada',       scoreA: 4, scoreB: 1, status: 'completed' },
-  { id: 'R16-4', round: 'Round of 16', date: '2026-06-29', time: '21:00', venue: 'hardrock',     teamA: '🇪🇸 Spain',       teamB: '🇲🇦 Morocco',      scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'R16-5', round: 'Round of 16', date: '2026-06-30', time: '17:00', venue: 'mercedesbenz', teamA: '🇺🇸 USA',         teamB: '🇨🇲 Cameroon',     scoreA: 3, scoreB: 0, status: 'completed' },
-  { id: 'R16-6', round: 'Round of 16', date: '2026-06-30', time: '21:00', venue: 'nrg',          teamA: '🇬🇧 England',     teamB: '🇸🇪 Sweden',       scoreA: 3, scoreB: 1, status: 'completed' },
-  { id: 'R16-7', round: 'Round of 16', date: '2026-07-01', time: '17:00', venue: 'lincoln',      teamA: '🇳🇱 Netherlands', teamB: '🇲🇽 Mexico',       scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'R16-8', round: 'Round of 16', date: '2026-07-01', time: '21:00', venue: 'levis',        teamA: '🇵🇹 Portugal',    teamB: '🇯🇵 Japan',        scoreA: 3, scoreB: 2, status: 'completed' },
+  // ── ROUND OF 16 ──
+  { id: 'R16-1', round: 'Round of 16', date: '2026-07-04', time: '13:00', venue: 'lincoln',      teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-2', round: 'Round of 16', date: '2026-07-04', time: '17:00', venue: 'nrg',          teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-3', round: 'Round of 16', date: '2026-07-05', time: '13:00', venue: 'metlife',      teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-4', round: 'Round of 16', date: '2026-07-05', time: '17:00', venue: 'azteca',       teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-5', round: 'Round of 16', date: '2026-07-06', time: '13:00', venue: 'att',          teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-6', round: 'Round of 16', date: '2026-07-06', time: '17:00', venue: 'lumen',        teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-7', round: 'Round of 16', date: '2026-07-07', time: '13:00', venue: 'mercedesbenz', teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-8', round: 'Round of 16', date: '2026-07-07', time: '17:00', venue: 'bc_place',     teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
 
-  // ── QUARTER FINALS (Jul 4-5) ──
-  { id: 'QF-1', round: 'Quarter Final', date: '2026-07-04', time: '18:00', venue: 'att',      teamA: '🇦🇷 Argentina',   teamB: '🇪🇸 Spain',        scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'QF-2', round: 'Quarter Final', date: '2026-07-04', time: '21:00', venue: 'hardrock', teamA: '🇺🇸 USA',         teamB: '🇬🇧 England',      scoreA: 2, scoreB: 1, status: 'completed' },
-  { id: 'QF-3', round: 'Quarter Final', date: '2026-07-05', time: '18:00', venue: 'sofi',     teamA: '🇧🇷 Brazil',      teamB: '🇳🇱 Netherlands',  scoreA: 3, scoreB: 2, status: 'completed' },
-  { id: 'QF-4', round: 'Quarter Final', date: '2026-07-05', time: '21:00', venue: 'metlife',  teamA: '🇫🇷 France',      teamB: '🇵🇹 Portugal',     scoreA: 2, scoreB: 1, status: 'completed' },
+  // ── QUARTER FINALS ──
+  { id: 'QF-1', round: 'Quarter Final', date: '2026-07-09', time: '17:00', venue: 'gillette',    teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'QF-2', round: 'Quarter Final', date: '2026-07-10', time: '17:00', venue: 'sofi',        teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'QF-3', round: 'Quarter Final', date: '2026-07-11', time: '13:00', venue: 'hardrock',    teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'QF-4', round: 'Quarter Final', date: '2026-07-11', time: '17:00', venue: 'metlife',     teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
 
-  // ── SEMI FINALS (Jul 8-9) ──
-  { id: 'SF-1', round: 'Semi Final', date: '2026-07-08', time: '20:00', venue: 'metlife',   teamA: '🇦🇷 Argentina', teamB: '🇺🇸 USA',      scoreA: 2, scoreB: 2, status: 'completed', note: 'Argentina wins 4-3 on penalties' },
-  { id: 'SF-2', round: 'Semi Final', date: '2026-07-09', time: '20:00', venue: 'att',       teamA: '🇧🇷 Brazil',    teamB: '🇫🇷 France',   scoreA: 1, scoreB: 3, status: 'completed' },
+  // ── SEMI FINALS ──
+  { id: 'SF-1', round: 'Semi Final', date: '2026-07-14', time: '20:00', venue: 'att',            teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'SF-2', round: 'Semi Final', date: '2026-07-15', time: '20:00', venue: 'mercedesbenz',   teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
 
-  // ── 3RD PLACE & FINAL (Jul 18-19) ──
-  { id: '3RD',  round: 'Third Place', date: '2026-07-18', time: '17:00', venue: 'hardrock',  teamA: '🇺🇸 USA',       teamB: '🇧🇷 Brazil',   scoreA: null, scoreB: null, status: 'live',     note: '2nd Half — 67\'' },
-  { id: 'F',    round: 'Final',       date: '2026-07-19', time: '20:00', venue: 'metlife',   teamA: '🇦🇷 Argentina', teamB: '🇫🇷 France',   scoreA: null, scoreB: null, status: 'upcoming' },
+  // ── 3RD PLACE & FINAL ──
+  { id: '3RD',  round: 'Third Place', date: '2026-07-18', time: '17:00', venue: 'hardrock',      teamA: 'TBD (Loser SF1)',   teamB: 'TBD (Loser SF2)',   scoreA: null, scoreB: null, status: 'live',     note: '2nd Half — 67\'' },
+  { id: 'F',    round: 'Final',       date: '2026-07-19', time: '20:00', venue: 'metlife',       teamA: 'TBD (Winner SF1)',  teamB: 'TBD (Winner SF2)',  scoreA: null, scoreB: null, status: 'upcoming' },
 ];
 
 export const trafficConditions = {
