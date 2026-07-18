@@ -5,6 +5,8 @@
 ![Open-Meteo Live API](https://img.shields.io/badge/Telemetry-Open--Meteo%20Live%20Weather-10b981?style=for-the-badge&logo=icloud&logoColor=white)
 ![Build Status](https://img.shields.io/badge/Vite%20Build-Passing%20(1%2C790%20modules)-22c55e?style=for-the-badge)
 
+**Built for the Virtual Prompt Wars Challenge organized by Hack2Skill and GDG India.** 🚀
+
 **StadiaIQ** is a world-class, real-time **Generative AI operational intelligence platform and multimodal fan concierge** engineered specifically for the **FIFA World Cup 2026™ across all 16 Host Stadiums** in the United States, Mexico, and Canada.
 
 By combining **Groq’s ultra-low-latency LPU™ inference (`llama-3.3-70b-versatile`)**, **live Open-Meteo environmental telemetry**, a **reactive 3-second event ticker (`useLiveTelemetry`)**, and **hyper-personalized seat coordinate injection**, StadiaIQ transforms the chaotic stadium experience into a seamless, accessible, and high-flow operational ecosystem.
@@ -138,3 +140,26 @@ VPW-Chllge3-StadiaIQ/
 
 ## 📄 License
 This project is developed for the **FIFA World Cup 2026™ Advanced Operational & Fan Experience Innovation Challenge**. All rights reserved.
+
+---
+
+## 📢 Social Media & Promotion
+
+**LinkedIn Draft Post:**
+
+🚀 Excited to share **StadiaIQ** — A Real-Time AI Operational Assistant I built for the FIFA World Cup 2026™! ⚽🌎
+
+I developed this project as part of the **Virtual Prompt Wars Challenge** organized by **Hack2Skill** and **GDG India**. Managing 80,000+ fans requires instant intelligence, so I engineered StadiaIQ as a live command center to optimize the stadium experience using real-time data and AI.
+
+**Key Technical Highlights:**
+🏟️ **Smart Match Binding:** Select your game, and the app instantly auto-configures to that specific venue—pulling local weather, stadium layouts, and route maps.
+🧠 **Hyper-Personalized AI Wayfinding:** The AI engine takes your exact seating coordinates and live gate congestion to compute the fastest walking path to restrooms or exits.
+📊 **Live Telemetry Engine:** Custom dashboards monitor turnstile wait times, active security incidents, and live crowd capacity to prevent bottlenecks.
+🚦 **Transit & Traffic Sync:** Real-time road congestion delays and transit departure countdowns to optimize egress.
+
+It was an incredible experience building this with React, complex state management, and real-time AI APIs for the challenge!
+
+💻 **Check out the code:** https://github.com/abhinav-vinod8001/VPW-Chllge3-StadiaIQ
+🔗 **Live Demo:** [Insert Vercel Link Here]
+
+#VirtualPromptWars #Hack2Skill #GDGIndia #ReactJS #ArtificialIntelligence #WebDevelopment #FIFA2026 #SportsTech #SoftwareEngineering
