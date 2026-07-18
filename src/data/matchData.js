@@ -160,28 +160,28 @@ export const matches = [
   { id: 'R32-2', round: 'Round of 32', date: '2026-06-29', time: '13:00', venue: 'gillette',     teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
 
   // ── ROUND OF 16 ──
-  { id: 'R16-1', round: 'Round of 16', date: '2026-07-04', time: '13:00', venue: 'lincoln',      teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R16-2', round: 'Round of 16', date: '2026-07-04', time: '17:00', venue: 'nrg',          teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R16-3', round: 'Round of 16', date: '2026-07-05', time: '13:00', venue: 'metlife',      teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R16-4', round: 'Round of 16', date: '2026-07-05', time: '17:00', venue: 'azteca',       teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R16-5', round: 'Round of 16', date: '2026-07-06', time: '13:00', venue: 'att',          teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R16-6', round: 'Round of 16', date: '2026-07-06', time: '17:00', venue: 'lumen',        teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R16-7', round: 'Round of 16', date: '2026-07-07', time: '13:00', venue: 'mercedesbenz', teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R16-8', round: 'Round of 16', date: '2026-07-07', time: '17:00', venue: 'bc_place',     teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R16-1', round: 'Round of 16', date: '2026-07-04', time: '13:00', venue: 'lincoln',      teamA: '🇫🇷 France',          teamB: '🇵🇾 Paraguay',        scoreA: 2, scoreB: 0, status: 'completed' },
+  { id: 'R16-2', round: 'Round of 16', date: '2026-07-04', time: '17:00', venue: 'nrg',          teamA: '🇧🇪 Belgium',         teamB: '🇺🇸 USA',             scoreA: 3, scoreB: 1, status: 'completed' },
+  { id: 'R16-3', round: 'Round of 16', date: '2026-07-05', time: '13:00', venue: 'metlife',      teamA: '🇪🇸 Spain',           teamB: '🇵🇹 Portugal',        scoreA: 1, scoreB: 0, status: 'completed' },
+  { id: 'R16-4', round: 'Round of 16', date: '2026-07-05', time: '17:00', venue: 'azteca',       teamA: '🇦🇷 Argentina',       teamB: '🇪🇬 Egypt',           scoreA: 2, scoreB: 1, status: 'completed' },
+  { id: 'R16-5', round: 'Round of 16', date: '2026-07-06', time: '13:00', venue: 'att',          teamA: '🇨🇭 Switzerland',     teamB: '🇨🇴 Colombia',        scoreA: 1, scoreB: 1, status: 'completed', note: 'Switzerland wins 4-2 on penalties' },
+  { id: 'R16-6', round: 'Round of 16', date: '2026-07-06', time: '17:00', venue: 'lumen',        teamA: '🇬🇧 England',         teamB: '🇲🇽 Mexico',          scoreA: 2, scoreB: 0, status: 'completed' },
+  { id: 'R16-7', round: 'Round of 16', date: '2026-07-07', time: '13:00', venue: 'mercedesbenz', teamA: '🇲🇦 Morocco',         teamB: '🇨🇦 Canada',          scoreA: 1, scoreB: 0, status: 'completed' },
+  { id: 'R16-8', round: 'Round of 16', date: '2026-07-07', time: '17:00', venue: 'bc_place',     teamA: '🇳🇴 Norway',          teamB: '🇧🇷 Brazil',          scoreA: 2, scoreB: 1, status: 'completed' },
 
   // ── QUARTER FINALS ──
-  { id: 'QF-1', round: 'Quarter Final', date: '2026-07-09', time: '17:00', venue: 'gillette',    teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'QF-2', round: 'Quarter Final', date: '2026-07-10', time: '17:00', venue: 'sofi',        teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'QF-3', round: 'Quarter Final', date: '2026-07-11', time: '13:00', venue: 'hardrock',    teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'QF-4', round: 'Quarter Final', date: '2026-07-11', time: '17:00', venue: 'metlife',     teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'QF-1', round: 'Quarter Final', date: '2026-07-09', time: '17:00', venue: 'gillette',    teamA: '🇫🇷 France',          teamB: '🇲🇦 Morocco',         scoreA: 2, scoreB: 1, status: 'completed' },
+  { id: 'QF-2', round: 'Quarter Final', date: '2026-07-10', time: '17:00', venue: 'sofi',        teamA: '🇪🇸 Spain',           teamB: '🇧🇪 Belgium',         scoreA: 3, scoreB: 0, status: 'completed' },
+  { id: 'QF-3', round: 'Quarter Final', date: '2026-07-11', time: '13:00', venue: 'hardrock',    teamA: '🇬🇧 England',         teamB: '🇳🇴 Norway',          scoreA: 1, scoreB: 0, status: 'completed' },
+  { id: 'QF-4', round: 'Quarter Final', date: '2026-07-11', time: '17:00', venue: 'metlife',     teamA: '🇦🇷 Argentina',       teamB: '🇨🇭 Switzerland',     scoreA: 2, scoreB: 0, status: 'completed' },
 
   // ── SEMI FINALS ──
-  { id: 'SF-1', round: 'Semi Final', date: '2026-07-14', time: '20:00', venue: 'att',            teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'SF-2', round: 'Semi Final', date: '2026-07-15', time: '20:00', venue: 'mercedesbenz',   teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'SF-1', round: 'Semi Final', date: '2026-07-14', time: '20:00', venue: 'att',            teamA: '🇪🇸 Spain',           teamB: '🇫🇷 France',          scoreA: 2, scoreB: 1, status: 'completed' },
+  { id: 'SF-2', round: 'Semi Final', date: '2026-07-15', time: '20:00', venue: 'mercedesbenz',   teamA: '🇦🇷 Argentina',       teamB: '🇬🇧 England',         scoreA: 2, scoreB: 1, status: 'completed' },
 
   // ── 3RD PLACE & FINAL ──
-  { id: '3RD',  round: 'Third Place', date: '2026-07-18', time: '17:00', venue: 'hardrock',      teamA: 'TBD (Loser SF1)',   teamB: 'TBD (Loser SF2)',   scoreA: null, scoreB: null, status: 'live',     note: '2nd Half — 67\'' },
-  { id: 'F',    round: 'Final',       date: '2026-07-19', time: '20:00', venue: 'metlife',       teamA: 'TBD (Winner SF1)',  teamB: 'TBD (Winner SF2)',  scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: '3RD',  round: 'Third Place', date: '2026-07-18', time: '17:00', venue: 'hardrock',      teamA: '🇫🇷 France',          teamB: '🇬🇧 England',         scoreA: null, scoreB: null, status: 'live',     note: '2nd Half — 67\'' },
+  { id: 'F',    round: 'Final',       date: '2026-07-19', time: '20:00', venue: 'metlife',       teamA: '🇪🇸 Spain',           teamB: '🇦🇷 Argentina',       scoreA: null, scoreB: null, status: 'upcoming' },
 ];
 
 export const trafficConditions = {
