@@ -142,22 +142,22 @@ export const venues = {
 // ============================================
 export const matches = [
   // ── GROUP STAGE (Host Nations Assigned) ──
-  { id: 'GS-01', round: 'Group A', matchday: 1, date: '2026-06-11', time: '15:00', venue: 'azteca',      teamA: '🇲🇽 Mexico',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'GS-02', round: 'Group A', matchday: 1, date: '2026-06-11', time: '19:00', venue: 'guadalajara', teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'GS-03', round: 'Group B', matchday: 1, date: '2026-06-12', time: '15:00', venue: 'bmo',         teamA: '🇨🇦 Canada',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'GS-04', round: 'Group B', matchday: 1, date: '2026-06-12', time: '19:00', venue: 'sofi',        teamA: '🇺🇸 USA',            teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-01', round: 'Group A', matchday: 1, date: '2026-06-11', time: '15:00', venue: 'azteca',      teamA: '🇲🇽 Mexico',         teamB: '🇨🇴 Colombia',        scoreA: 2, scoreB: 1, status: 'completed' },
+  { id: 'GS-02', round: 'Group A', matchday: 1, date: '2026-06-11', time: '19:00', venue: 'guadalajara', teamA: '🇨🇭 Switzerland',     teamB: '🇪🇬 Egypt',           scoreA: 1, scoreB: 0, status: 'completed' },
+  { id: 'GS-03', round: 'Group B', matchday: 1, date: '2026-06-12', time: '15:00', venue: 'bmo',         teamA: '🇨🇦 Canada',         teamB: '🇵🇾 Paraguay',        scoreA: 1, scoreB: 1, status: 'completed' },
+  { id: 'GS-04', round: 'Group B', matchday: 1, date: '2026-06-12', time: '19:00', venue: 'sofi',        teamA: '🇺🇸 USA',            teamB: '🇧🇪 Belgium',         scoreA: 0, scoreB: 2, status: 'completed' },
   
-  { id: 'GS-33', round: 'Group B', matchday: 2, date: '2026-06-18', time: '16:00', venue: 'bc_place',    teamA: '🇨🇦 Canada',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'GS-34', round: 'Group A', matchday: 2, date: '2026-06-18', time: '19:00', venue: 'azteca',      teamA: '🇲🇽 Mexico',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'GS-35', round: 'Group B', matchday: 2, date: '2026-06-19', time: '16:00', venue: 'lumen',       teamA: '🇺🇸 USA',            teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-33', round: 'Group B', matchday: 2, date: '2026-06-18', time: '16:00', venue: 'bc_place',    teamA: '🇨🇦 Canada',         teamB: '🇧🇪 Belgium',         scoreA: 0, scoreB: 1, status: 'completed' },
+  { id: 'GS-34', round: 'Group A', matchday: 2, date: '2026-06-18', time: '19:00', venue: 'azteca',      teamA: '🇲🇽 Mexico',         teamB: '🇨🇭 Switzerland',     scoreA: 1, scoreB: 1, status: 'completed' },
+  { id: 'GS-35', round: 'Group B', matchday: 2, date: '2026-06-19', time: '16:00', venue: 'lumen',       teamA: '🇺🇸 USA',            teamB: '🇵🇾 Paraguay',        scoreA: 2, scoreB: 0, status: 'completed' },
 
-  { id: 'GS-53', round: 'Group A', matchday: 3, date: '2026-06-24', time: '16:00', venue: 'guadalajara', teamA: '🇲🇽 Mexico',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'GS-54', round: 'Group B', matchday: 3, date: '2026-06-24', time: '19:00', venue: 'bc_place',    teamA: '🇨🇦 Canada',         teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'GS-55', round: 'Group B', matchday: 3, date: '2026-06-25', time: '16:00', venue: 'sofi',        teamA: '🇺🇸 USA',            teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'GS-53', round: 'Group A', matchday: 3, date: '2026-06-24', time: '16:00', venue: 'guadalajara', teamA: '🇲🇽 Mexico',         teamB: '🇪🇬 Egypt',           scoreA: 3, scoreB: 1, status: 'completed' },
+  { id: 'GS-54', round: 'Group B', matchday: 3, date: '2026-06-24', time: '19:00', venue: 'bc_place',    teamA: '🇨🇦 Canada',         teamB: '🇺🇸 USA',             scoreA: 1, scoreB: 2, status: 'completed' },
+  { id: 'GS-55', round: 'Group B', matchday: 3, date: '2026-06-25', time: '16:00', venue: 'sofi',        teamA: '🇧🇪 Belgium',         teamB: '🇵🇾 Paraguay',        scoreA: 3, scoreB: 0, status: 'completed' },
 
   // ── ROUND OF 32 (Sample) ──
-  { id: 'R32-1', round: 'Round of 32', date: '2026-06-28', time: '13:00', venue: 'sofi',         teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
-  { id: 'R32-2', round: 'Round of 32', date: '2026-06-29', time: '13:00', venue: 'gillette',     teamA: 'TBD',               teamB: 'TBD',               scoreA: null, scoreB: null, status: 'upcoming' },
+  { id: 'R32-1', round: 'Round of 32', date: '2026-06-28', time: '13:00', venue: 'sofi',         teamA: '🇫🇷 France',          teamB: '🇩🇪 Germany',         scoreA: 2, scoreB: 1, status: 'completed' },
+  { id: 'R32-2', round: 'Round of 32', date: '2026-06-29', time: '13:00', venue: 'gillette',     teamA: '🇪🇸 Spain',           teamB: '🇮🇹 Italy',           scoreA: 1, scoreB: 0, status: 'completed' },
 
   // ── ROUND OF 16 ──
   { id: 'R16-1', round: 'Round of 16', date: '2026-07-04', time: '13:00', venue: 'lincoln',      teamA: '🇫🇷 France',          teamB: '🇵🇾 Paraguay',        scoreA: 2, scoreB: 0, status: 'completed' },
