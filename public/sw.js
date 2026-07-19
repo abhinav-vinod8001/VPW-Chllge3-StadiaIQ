@@ -1,4 +1,4 @@
-const CACHE_NAME = 'stadiaiq-v1';
+const CACHE_NAME = 'stadiaiq-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -39,34 +39,26 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Use Network-First strategy to prevent Vercel deployment bugs (white screens)
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Cache hit - return response
-      if (response) {
-        return response;
-      }
-
-      // Clone request
-      const fetchRequest = event.request.clone();
-
-      return fetch(fetchRequest).then((response) => {
+    fetch(event.request)
+      .then((response) => {
         // Check if we received a valid response
         if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
 
-        // Clone response
+        // Clone response and cache it
         const responseToCache = response.clone();
-
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, responseToCache);
         });
 
         return response;
-      }).catch(() => {
-        // Offline fallback if fetch fails
-        // Here we could return an offline page if we had one
-      });
-    })
+      })
+      .catch(() => {
+        // Offline fallback: return from cache
+        return caches.match(event.request);
+      })
   );
 });

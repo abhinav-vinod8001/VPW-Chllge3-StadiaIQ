@@ -20,7 +20,7 @@ export default class ErrorBoundary extends React.Component {
       return (
         <div style={{
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          height: '100vh', background: 'var(--bg-app)', color: 'var(--text-primary)', padding: '2rem', textAlign: 'center'
+          height: '100vh', background: 'var(--bg-page)', color: 'var(--text-primary)', padding: '2rem', textAlign: 'center'
         }}>
           <h2>Something went wrong in StadiaIQ.</h2>
           <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', marginTop: '1rem' }}>
