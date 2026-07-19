@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, memo } from "react";
 import { Users, Activity, ShieldAlert, Sparkles } from "lucide-react";
 
-export default function CrowdSection() {
+const CrowdSection = memo(function CrowdSection() {
   const canvasRef = useRef(null);
   
   const busiestZone = "Gate 2 (East Concourse)";
@@ -230,4 +230,6 @@ export default function CrowdSection() {
       </div>
     </div>
   );
-}
+});
+
+export default CrowdSection;

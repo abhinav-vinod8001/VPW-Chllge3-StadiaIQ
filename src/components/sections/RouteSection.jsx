@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Navigation,
   Car,
@@ -424,3 +425,8 @@ export default function RouteSection({ selectedVenueId, onSelectVenue }) {
     </div>
   );
 }
+
+RouteSection.propTypes = {
+  selectedVenueId: PropTypes.string,
+  onSelectVenue: PropTypes.func.isRequired,
+};

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
+import PropTypes from "prop-types";
 import {
   BarChart3,
   AlertCircle,
@@ -18,7 +19,7 @@ import {
 } from "../../data/telemetryBus";
 import { generatePABroadcastAsync } from "../../data/aiEngine";
 
-export default function OperationsSection({ selectedVenueId = "metlife" }) {
+const OperationsSection = memo(function OperationsSection({ selectedVenueId = "metlife" }) {
   const telemetry = useLiveTelemetry();
   const [incidents, setIncidents] = useState(telemetry.incidents);
 
@@ -625,4 +626,10 @@ export default function OperationsSection({ selectedVenueId = "metlife" }) {
       </div>
     </div>
   );
-}
+});
+
+OperationsSection.propTypes = {
+  selectedVenueId: PropTypes.string.isRequired,
+};
+
+export default OperationsSection;

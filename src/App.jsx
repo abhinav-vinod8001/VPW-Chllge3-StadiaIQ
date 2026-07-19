@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy } from "react";
+import React, { useState, useEffect, Suspense, lazy, useCallback } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import ChatOverlay from "./components/ChatOverlay";
@@ -42,10 +42,12 @@ export default function App() {
     }
   }, []);
 
-  const handleSavePreferences = (prefs) => {
+  const handleSavePreferences = useCallback((prefs) => {
     if (prefs?.venueId) setSelectedVenueId(prefs.venueId);
     if (prefs?.matchId) setSelectedMatchId(prefs.matchId);
-  };
+  }, []);
+
+  const openChatCallback = useCallback(() => setChatOpen(true), []);
 
   const renderSection = () => {
     switch (activeSection) {
@@ -53,7 +55,7 @@ export default function App() {
         return (
           <HomeSection
             onNavigate={setActiveSection}
-            onOpenChat={() => setChatOpen(true)}
+            onOpenChat={openChatCallback}
             selectedVenueId={selectedVenueId}
             selectedMatchId={selectedMatchId}
           />
@@ -88,7 +90,7 @@ export default function App() {
         return (
           <HomeSection
             onNavigate={setActiveSection}
-            onOpenChat={() => setChatOpen(true)}
+            onOpenChat={openChatCallback}
             selectedVenueId={selectedVenueId}
             selectedMatchId={selectedMatchId}
           />

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Search, Trophy, MapPin, Compass } from "lucide-react";
 import { matches, getVenue, formatDate } from "../../data/matchData";
 
@@ -237,3 +238,8 @@ export default function MatchesSection({ onNavigate, onSelectVenue }) {
     </div>
   );
 }
+
+MatchesSection.propTypes = {
+  onNavigate: PropTypes.func.isRequired,
+  onSelectVenue: PropTypes.func.isRequired,
+};

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Users,
   DoorOpen,
@@ -590,3 +591,9 @@ export default function HomeSection({
     </div>
   );
 }
+
+HomeSection.propTypes = {
+  onNavigate: PropTypes.func.isRequired,
+  onOpenChat: PropTypes.func.isRequired,
+  selectedVenueId: PropTypes.string,
+};

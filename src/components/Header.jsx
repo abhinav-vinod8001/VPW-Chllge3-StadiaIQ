@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Menu, Bot, Ticket, UserCheck } from "lucide-react";
+import { Menu, MessageSquare, Ticket, UserCheck } from "lucide-react";
 import {
   getVenue,
   getMatchById,
@@ -64,23 +64,13 @@ export default function Header({
 
   return (
     <header className="main__header">
-      <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+      <div className="header__left">
         <button
+          className="btn btn--icon"
           onClick={onToggleSidebar}
-          className="mobile-toggle"
-          aria-label="Toggle Navigation"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "0.45rem",
-            borderRadius: "6px",
-            background: "var(--color-gray-100)",
-            color: "var(--text-primary)",
-            cursor: "pointer",
-          }}
+          aria-label="Toggle Navigation Menu"
         >
-          <Menu size={20} />
+          <Menu size={24} aria-hidden="true" />
         </button>
         <div className="main__breadcrumb">
           StadiaIQ / <span>{sectionLabels[activeSection] || "Home"}</span>
@@ -191,9 +181,9 @@ export default function Header({
           }}
         >
           {userPrefs.isStaff ? (
-            <UserCheck size={13} />
+            <UserCheck size={13} aria-hidden="true" />
           ) : (
-            <Ticket size={13} style={{ color: "#f59e0b" }} />
+            <Ticket size={13} style={{ color: "#f59e0b" }} aria-hidden="true" />
           )}
           <span>
             {flags[userPrefs.language] || "🇺🇸"}{" "}
@@ -203,12 +193,12 @@ export default function Header({
 
         {/* AI Assistant */}
         <button
+          className="btn btn--primary"
           onClick={onToggleChat}
-          className="btn btn--primary btn--sm"
-          aria-label="Open AI Assistant"
-          style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}
+          aria-label="Open AI Operations Assistant"
         >
-          <Bot size={15} aria-hidden="true" /> AI
+          <MessageSquare size={18} aria-hidden="true" />
+          <span className="hidden-mobile">AI Co-Pilot</span>
         </button>
       </div>
     </header>

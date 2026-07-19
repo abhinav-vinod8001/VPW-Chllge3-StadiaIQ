@@ -118,7 +118,7 @@ export default function Sidebar({
             title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
             style={{ padding: "0.4rem" }}
           >
-            {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+            {theme === "light" ? <Moon size={16} aria-hidden="true" /> : <Sun size={16} aria-hidden="true" />}
           </button>
           
           {installPrompt && (
@@ -128,7 +128,7 @@ export default function Sidebar({
               aria-label="Install App"
               style={{ padding: "0.4rem 0.75rem", display: "flex", alignItems: "center", gap: "0.3rem" }}
             >
-              <Download size={14} /> Install
+              <Download size={14} aria-hidden="true" /> Install
             </button>
           )}
         </div>
