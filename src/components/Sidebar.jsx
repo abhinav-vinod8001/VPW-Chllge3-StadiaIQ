@@ -110,15 +110,15 @@ export default function Sidebar({
       </nav>
 
       <div className="sidebar__footer">
-        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem", flexDirection: "column" }}>
+        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.8rem", justifyContent: "center" }}>
           <button
             onClick={toggleTheme}
             className="btn btn--secondary btn--sm"
             aria-label="Toggle Theme"
-            style={{ width: "100%", justifyContent: "center" }}
+            title={theme === "light" ? "Switch to Dark Mode" : "Switch to Light Mode"}
+            style={{ padding: "0.4rem" }}
           >
-            {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
-            {theme === "light" ? "Dark Mode" : "Light Mode"}
+            {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
           </button>
           
           {installPrompt && (
@@ -126,9 +126,9 @@ export default function Sidebar({
               onClick={handleInstallClick}
               className="btn btn--primary btn--sm"
               aria-label="Install App"
-              style={{ width: "100%", justifyContent: "center" }}
+              style={{ padding: "0.4rem 0.75rem", display: "flex", alignItems: "center", gap: "0.3rem" }}
             >
-              <Download size={14} /> Install App
+              <Download size={14} /> Install
             </button>
           )}
         </div>
