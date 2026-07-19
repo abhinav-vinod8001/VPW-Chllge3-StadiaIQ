@@ -62,7 +62,7 @@ export default function ChatOverlay({
 
     const newMessages = [...messages, { sender: "user", text: query }];
     setMessages(newMessages);
-    if (typeof textToSend !== "string") setInput("");
+    if (textToSend === input) setInput("");
     setIsTyping(true);
 
     try {
