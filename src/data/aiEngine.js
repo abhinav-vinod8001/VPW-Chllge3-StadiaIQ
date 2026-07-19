@@ -238,10 +238,11 @@ When the user asks for directions to restrooms, concessions, gates, or seats, TA
       { role: "user", content: query },
     ];
 
-    const response = await fetch("/api/chat", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: model,
@@ -339,10 +340,11 @@ Write an authoritative, calm, clear, and action-oriented public address announce
 
 Direct fans clearly on how to proceed safely and smoothly (e.g., recommend express Gate 4 or step-free routes). Keep the script exact, professional, and under 60 words so it can be broadcast clearly over concourse speakers and LED ribbon displays right now. Prefix with 📢 **PA BROADCAST SCRIPT (${targetLang.toUpperCase()})**:`;
 
-    const response = await fetch("/api/chat", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: model,
