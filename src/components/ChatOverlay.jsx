@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import DOMPurify from "dompurify";
 import { Bot, Send, X, Sparkles, Cpu, Zap } from "lucide-react";
 import { generateAIResponseAsync } from "../data/aiEngine";
 
 const renderFormattedText = (text) => {
   if (!text) return null;
-  const parts = text.split(/(\*\*.*?\*\*)/g);
-  return parts.map((part, index) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
-      return <strong key={index}>{part.slice(2, -2)}</strong>;
-    }
-    return <React.Fragment key={index}>{part}</React.Fragment>;
-  });
+  // Convert basic markdown (**bold**) to HTML and preserve line breaks
+  let html = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/\n/g, "<br/>");
+  
+  // Enterprise-grade Security: Sanitize all AI & User input before rendering DOM
+  const cleanHtml = DOMPurify.sanitize(html);
+  
+  return <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />;
 };
 
 export default function ChatOverlay({
@@ -147,7 +149,7 @@ export default function ChatOverlay({
         </div>
       </div>
 
-      <div className="chat-messages">
+      <div className="chat-messages" aria-live="polite" aria-atomic="false" aria-relevant="additions">
         {messages.map((msg, i) => (
           <div
             key={i}

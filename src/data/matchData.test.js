@@ -7,7 +7,9 @@ import {
   getLiveMatches,
   getMatchStatusDisplay,
   formatDate,
-  matches,
+  getMatchesByVenue,
+  getGoogleMapsUrl,
+  getGoogleMapsTransitUrl
 } from "./matchData";
 
 describe("matchData Utilities", () => {
@@ -39,6 +41,12 @@ describe("matchData Utilities", () => {
     expect(todays[0].id).toBe("GS-01");
   });
 
+  it("should get matches by venue", () => {
+    const metlifeMatches = getMatchesByVenue("metlife");
+    expect(metlifeMatches.length).toBeGreaterThan(0);
+    expect(metlifeMatches.every((m) => m.venue === "metlife")).toBe(true);
+  });
+
   it("should get upcoming matches", () => {
     const upcoming = getUpcomingMatches();
     expect(upcoming).toBeDefined();
@@ -51,18 +59,70 @@ describe("matchData Utilities", () => {
     expect(Array.isArray(live)).toBe(true);
   });
 
-  it("should format match status correctly", () => {
-    expect(
-      getMatchStatusDisplay({ status: "upcoming", time: "14:00" }).label,
-    ).toBe("14:00 ET");
-    expect(
-      getMatchStatusDisplay({ status: "live", note: "🔴 LIVE" }).label,
-    ).toBe("🔴 LIVE");
-    expect(
-      getMatchStatusDisplay({ status: "completed", scoreA: 2, scoreB: 1 })
-        .label,
-    ).toBe("FT: 2-1");
-    expect(getMatchStatusDisplay(null).label).toBe("Unknown");
+  describe("getMatchStatusDisplay", () => {
+    it("should return UI config for live match", () => {
+      const result = getMatchStatusDisplay({ status: "live", note: "45' + 2" });
+      expect(result.label).toBe("45' + 2");
+      expect(result.color).toBe("danger");
+    });
+    
+    it("should return UI config for live match without note", () => {
+      const result = getMatchStatusDisplay({ status: "live" });
+      expect(result.label).toBe("🔴 LIVE");
+      expect(result.color).toBe("danger");
+    });
+
+    it("should return UI config for completed match", () => {
+      const result = getMatchStatusDisplay({
+        status: "completed",
+        scoreA: 2,
+        scoreB: 1,
+      });
+      expect(result.label).toBe("FT: 2-1");
+      expect(result.color).toBe("secondary");
+    });
+
+    it("should return UI config for upcoming match", () => {
+      const result = getMatchStatusDisplay({
+        status: "upcoming",
+        time: "15:00",
+      });
+      expect(result.label).toBe("15:00 ET");
+      expect(result.color).toBe("info");
+    });
+
+    it("should return fallback UI config for unknown status", () => {
+      const result = getMatchStatusDisplay({ status: "delayed" });
+      expect(result.label).toBe("delayed");
+      expect(result.color).toBe("secondary");
+    });
+
+    it("should handle null match gracefully", () => {
+      const result = getMatchStatusDisplay(null);
+      expect(result.label).toBe("Unknown");
+      expect(result.color).toBe("secondary");
+    });
+  });
+  
+  describe("Google Maps URLs", () => {
+    it("should generate valid driving URL", () => {
+      const url = getGoogleMapsUrl("metlife");
+      expect(url).toContain("destination=40.8128,-74.0742");
+      expect(url).toContain("driving");
+    });
+
+    it("should return # for invalid driving venue", () => {
+      expect(getGoogleMapsUrl("invalid")).toBe("#");
+    });
+
+    it("should generate valid transit URL", () => {
+      const url = getGoogleMapsTransitUrl("metlife");
+      expect(url).toContain("transit");
+    });
+
+    it("should return # for invalid transit venue", () => {
+      expect(getGoogleMapsTransitUrl("invalid")).toBe("#");
+    });
   });
 
   it("should format date correctly", () => {

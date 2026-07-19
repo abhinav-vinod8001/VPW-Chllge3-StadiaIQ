@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.97% </span>
+                <span class="strong">87.17% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>23/39</span>
+                <span class='fraction'>34/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">84% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>15/25</span>
+                <span class='fraction'>21/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>11/20</span>
+                <span class='fraction'>15/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.29% </span>
+                <span class="strong">87.09% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/31</span>
+                <span class='fraction'>27/31</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -1572,7 +1572,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1594,7 +1594,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1602,26 +1605,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2359,8 +2359,8 @@ export function getTodaysMatches(dateOverride = null) {
 }
 &nbsp;
 // Get all matches at a specific venue
-export function <span class="fstat-no" title="function not covered" >getMatchesByVenue(v</span>enueId) {
-<span class="cstat-no" title="statement not covered" >  return matches.<span class="fstat-no" title="function not covered" >filter((m</span>) =&gt; <span class="cstat-no" title="statement not covered" >m.venue === venueId)</span>;</span>
+export function getMatchesByVenue(venueId) {
+  return matches.filter((m) =&gt; m.venue === venueId);
 }
 &nbsp;
 // Get a single match by ID
@@ -2384,15 +2384,15 @@ export function getMatchById(matchId) {
 export function getMatchStatusDisplay(match) {
   if (!match) return { label: "Unknown", color: "secondary" };
   if (match.status === "live") {
-    return { label: match.note || <span class="branch-1 cbranch-no" title="branch not covered" >"🔴 LIVE", c</span>olor: "danger" };
+    return { label: match.note || "🔴 LIVE", color: "danger" };
   }
   if (match.status === "completed") {
     return { label: `FT: ${match.scoreA}-${match.scoreB}`, color: "secondary" };
   }
-  <span class="missing-if-branch" title="else path not taken" >E</span>if (match.status === "upcoming") {
+  if (match.status === "upcoming") {
     return { label: `${match.time} ET`, color: "info" };
   }
-<span class="cstat-no" title="statement not covered" >  return { label: match.status, color: "secondary" };</span>
+  return { label: match.status, color: "secondary" };
 }
 &nbsp;
 // Traffic data for a venue
@@ -2400,16 +2400,16 @@ export function <span class="fstat-no" title="function not covered" >getTraffic(
 <span class="cstat-no" title="statement not covered" >  return trafficConditions[venueId] || trafficConditions.metlife;</span>
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >getGoogleMapsUrl(v</span>enueId) {
-  const venue = <span class="cstat-no" title="statement not covered" >venues[venueId];</span>
-<span class="cstat-no" title="statement not covered" >  if (!venue) <span class="cstat-no" title="statement not covered" >return "#";</span></span>
-<span class="cstat-no" title="statement not covered" >  return `https://www.google.com/maps/dir/?api=1&amp;destination=${venue.lat},${venue.lng}&amp;travelmode=driving`;</span>
+export function getGoogleMapsUrl(venueId) {
+  const venue = venues[venueId];
+  if (!venue) return "#";
+  return `https://www.google.com/maps/dir/?api=1&amp;destination=${venue.lat},${venue.lng}&amp;travelmode=driving`;
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >getGoogleMapsTransitUrl(v</span>enueId) {
-  const venue = <span class="cstat-no" title="statement not covered" >venues[venueId];</span>
-<span class="cstat-no" title="statement not covered" >  if (!venue) <span class="cstat-no" title="statement not covered" >return "#";</span></span>
-<span class="cstat-no" title="statement not covered" >  return `https://www.google.com/maps/dir/?api=1&amp;destination=${venue.lat},${venue.lng}&amp;travelmode=transit`;</span>
+export function getGoogleMapsTransitUrl(venueId) {
+  const venue = venues[venueId];
+  if (!venue) return "#";
+  return `https://www.google.com/maps/dir/?api=1&amp;destination=${venue.lat},${venue.lng}&amp;travelmode=transit`;
 }
 &nbsp;
 /**
@@ -2434,7 +2434,7 @@ export function formatDate(dateString) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-19T07:54:52.288Z
+                at 2026-07-19T08:38:48.890Z
             </div>
         <script src="../prettify.js"></script>
         <script>

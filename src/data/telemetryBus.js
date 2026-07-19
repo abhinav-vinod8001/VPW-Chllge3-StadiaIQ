@@ -84,99 +84,114 @@ let globalTelemetryState = {
 
 const listeners = new Set();
 
+/**
+ * Notifies all subscribed listeners with the latest global telemetry state.
+ */
 function notifyListeners() {
   listeners.forEach((listener) => listener(globalTelemetryState));
 }
 
-// Start live ticker loop (runs once when module is loaded)
-if (typeof window !== "undefined") {
-  setInterval(() => {
-    // 1. Tick transit countdowns
-    const newMetro =
-      globalTelemetryState.transitCountdowns.metroGreen <= 0
-        ? 240
-        : globalTelemetryState.transitCountdowns.metroGreen - 3;
-    const newShuttle =
-      globalTelemetryState.transitCountdowns.fanShuttle <= 0
-        ? 600
-        : globalTelemetryState.transitCountdowns.fanShuttle - 3;
-    const newCommuter =
-      globalTelemetryState.transitCountdowns.commuterRail <= 0
-        ? 1200
-        : globalTelemetryState.transitCountdowns.commuterRail - 3;
+/**
+ * Ticks the telemetry simulation forward, updating wait times, transit countdowns, and triggering random incidents.
+ * This simulates real-time WebSocket/SSE incoming data.
+ */
+export function tickTelemetry() {
+  // 1. Tick transit countdowns
+  const newMetro =
+    globalTelemetryState.transitCountdowns.metroGreen <= 0
+      ? 240
+      : globalTelemetryState.transitCountdowns.metroGreen - 3;
+  const newShuttle =
+    globalTelemetryState.transitCountdowns.fanShuttle <= 0
+      ? 600
+      : globalTelemetryState.transitCountdowns.fanShuttle - 3;
+  const newCommuter =
+    globalTelemetryState.transitCountdowns.commuterRail <= 0
+      ? 1200
+      : globalTelemetryState.transitCountdowns.commuterRail - 3;
 
-    // 2. Micro-fluctuations in attendance (real-time turnstile entries)
-    const delta = Math.floor(Math.random() * 7) - 1; // -1 to +5 fans
-    const newAttendance = Math.min(
-      82500,
-      Math.max(60000, globalTelemetryState.attendance + delta),
-    );
+  // 2. Micro-fluctuations in attendance (real-time turnstile entries)
+  const delta = Math.floor(Math.random() * 7) - 1; // -1 to +5 fans
+  const newAttendance = Math.min(
+    82500,
+    Math.max(60000, globalTelemetryState.attendance + delta),
+  );
 
-    // 3. Dynamic gate wait time adjustments
-    const gate2Change =
-      Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0;
-    const newGate2 = Math.min(
-      45, // allowed to spike high for bottlenecks
-      Math.max(10, globalTelemetryState.gateWaitTimes.gate2 + gate2Change),
-    );
+  // 3. Dynamic gate wait time adjustments
+  const gate2Change =
+    Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0;
+  const newGate2 = Math.min(
+    45, // allowed to spike high for bottlenecks
+    Math.max(10, globalTelemetryState.gateWaitTimes.gate2 + gate2Change),
+  );
 
-    const concessionChange =
-      Math.random() > 0.7 ? (Math.random() > 0.5 ? 1 : -1) : 0;
-    const newConcession = Math.min(
-      30,
-      Math.max(
-        5,
-        globalTelemetryState.concessionWaits.stand24_east + concessionChange,
-      ),
-    );
+  const concessionChange =
+    Math.random() > 0.7 ? (Math.random() > 0.5 ? 1 : -1) : 0;
+  const newConcession = Math.min(
+    30,
+    Math.max(
+      5,
+      globalTelemetryState.concessionWaits.stand24_east + concessionChange,
+    ),
+  );
+  
+  // 4. Random Incident Generation (Simulating a chaotic stadium)
+  let newIncidents = [...globalTelemetryState.incidents];
+  if (Math.random() > 0.95) {
+    const incidentTypes = ["Medical Emergency", "Gate Surging", "Concession Fire Alarm", "Unruly Fan", "VIP Escort Delay"];
+    const locations = ["Gate 4", "Section 114", "West Concourse", "Club Level", "South Parking"];
+    const randomType = incidentTypes[Math.floor(Math.random() * incidentTypes.length)];
+    const randomLocation = locations[Math.floor(Math.random() * locations.length)];
     
-    // 4. Random Incident Generation (Simulating a chaotic stadium)
-    let newIncidents = [...globalTelemetryState.incidents];
-    if (Math.random() > 0.95) {
-      // 5% chance every 3 seconds to generate a new random incident
-      const incidentTypes = ["Medical Emergency", "Gate Surging", "Concession Fire Alarm", "Unruly Fan", "VIP Escort Delay"];
-      const locations = ["Gate 4", "Section 114", "West Concourse", "Club Level", "South Parking"];
-      const randomType = incidentTypes[Math.floor(Math.random() * incidentTypes.length)];
-      const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-      
-      newIncidents.unshift({
-        id: `INC-${Math.floor(Math.random() * 900) + 100}`,
-        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + " ET",
-        type: randomType,
-        location: randomLocation,
-        status: "Dispatched",
-        priority: randomType === "Medical Emergency" ? "Critical" : "High",
-        color: randomType === "Medical Emergency" ? "danger" : "warning",
-      });
-      // Keep only last 5 incidents to prevent overflow
-      if (newIncidents.length > 5) newIncidents.pop();
-    }
+    newIncidents.unshift({
+      id: `INC-${Math.floor(Math.random() * 900) + 100}`,
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + " ET",
+      type: randomType,
+      location: randomLocation,
+      status: "Dispatched",
+      priority: randomType === "Medical Emergency" ? "Critical" : "High",
+      color: randomType === "Medical Emergency" ? "danger" : "warning",
+    });
+    // Keep only last 5 incidents to prevent overflow
+    if (newIncidents.length > 5) newIncidents.pop();
+  }
 
-    globalTelemetryState = {
-      ...globalTelemetryState,
-      attendance: newAttendance,
-      gateWaitTimes: {
-        ...globalTelemetryState.gateWaitTimes,
-        gate2: newGate2,
-      },
-      concessionWaits: {
-        ...globalTelemetryState.concessionWaits,
-        stand24_east: newConcession,
-      },
-      activeBottlenecks: `Gate 2 East Concourse (${newGate2}m wait)`,
-      incidents: newIncidents,
-      transitCountdowns: {
-        metroGreen: newMetro,
-        fanShuttle: newShuttle,
-        commuterRail: newCommuter,
-      },
-      lastTick: Date.now(),
-    };
+  globalTelemetryState = {
+    ...globalTelemetryState,
+    attendance: newAttendance,
+    gateWaitTimes: {
+      ...globalTelemetryState.gateWaitTimes,
+      gate2: newGate2,
+    },
+    concessionWaits: {
+      ...globalTelemetryState.concessionWaits,
+      stand24_east: newConcession,
+    },
+    activeBottlenecks: `Gate 2 East Concourse (${newGate2}m wait)`,
+    incidents: newIncidents,
+    transitCountdowns: {
+      metroGreen: newMetro,
+      fanShuttle: newShuttle,
+      commuterRail: newCommuter,
+    },
+    lastTick: Date.now(),
+  };
 
-    notifyListeners();
-  }, 3000);
+  notifyListeners();
 }
 
+// Start live ticker loop (runs once when module is loaded)
+if (typeof window !== "undefined") {
+  // Only run interval if not in test environment
+  if (import.meta.env.MODE !== "test") {
+    setInterval(tickTelemetry, 3000);
+  }
+}
+
+/**
+ * React hook to subscribe to real-time telemetry updates.
+ * @returns {Object} The current global telemetry state.
+ */
 export function useLiveTelemetry() {
   const [state, setState] = useState(globalTelemetryState);
 
@@ -189,10 +204,18 @@ export function useLiveTelemetry() {
   return state;
 }
 
+/**
+ * Retrieves the current global telemetry state synchronously.
+ * @returns {Object} The current global telemetry state.
+ */
 export function getGlobalTelemetry() {
   return globalTelemetryState;
 }
 
+/**
+ * Resolves a global incident and updates the live telemetry state.
+ * @param {string} incidentId - The ID of the incident to resolve.
+ */
 export function resolveIncidentGlobal(incidentId) {
   globalTelemetryState = {
     ...globalTelemetryState,
@@ -205,6 +228,10 @@ export function resolveIncidentGlobal(incidentId) {
   notifyListeners();
 }
 
+/**
+ * Injects a new incident into the global telemetry state.
+ * @param {Object} newIncident - The incident object to add.
+ */
 export function addIncidentGlobal(newIncident) {
   globalTelemetryState = {
     ...globalTelemetryState,
