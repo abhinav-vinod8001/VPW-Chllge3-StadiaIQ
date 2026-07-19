@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   Home,
   Trophy,
@@ -137,3 +138,10 @@ export default function Sidebar({
     </aside>
   );
 }
+
+Sidebar.propTypes = {
+  activeSection: PropTypes.string.isRequired,
+  onNavigate: PropTypes.func.isRequired,
+  sidebarOpen: PropTypes.bool.isRequired,
+  onCloseSidebar: PropTypes.func,
+};

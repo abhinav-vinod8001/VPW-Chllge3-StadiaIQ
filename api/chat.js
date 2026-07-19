@@ -3,9 +3,18 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  // Allow CORS
+  // Restrict CORS in production, allow local in dev
+  const origin = req.headers.origin;
+  const allowedOrigins = ['http://localhost:5173', 'https://vpw-chllge3-stadiaiq.vercel.app'];
+  
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', 'https://vpw-chllge3-stadiaiq.vercel.app'); // Default secure origin
+  }
+  
+  const apiKey = process.env.VITE_GROQ_API_KEY;
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST');
   res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
@@ -13,18 +22,20 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  const apiKey = process.env.VITE_GROQ_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
-  }
-
   try {
-    const { messages, model, max_tokens, temperature } = req.body;
+    const { messages, model, max_tokens, temperature, clientKey } = req.body;
+    
+    // Use client override key if provided, else fall back to server env key
+    const activeKey = clientKey || apiKey;
+
+    if (!activeKey) {
+      return res.status(500).json({ error: 'Server configuration error: Missing API Key' });
+    }
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey.trim()}`,
+        'Authorization': `Bearer ${activeKey.trim()}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({

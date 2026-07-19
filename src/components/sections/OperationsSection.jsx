@@ -60,7 +60,8 @@ const OperationsSection = memo(function OperationsSection({ selectedVenueId = "m
         selectedVenueId,
       );
       setPaResult(res);
-    } catch {
+    } catch (error) {
+      console.warn("Failed to generate PA broadcast:", error);
       setPaResult({
         script:
           `📢 **PA SCRIPT (` +

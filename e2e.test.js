@@ -21,14 +21,9 @@ describe('StadiaIQ E2E End-to-End Flow', () => {
 
   it('should load the application and render the sidebar', async () => {
     // Note: E2E tests assume a local server is running on port 5173
-    try {
-      await page.goto('http://localhost:5173', { waitUntil: 'networkidle0', timeout: 5000 });
-      await page.waitForSelector('.app', { timeout: 3000 });
-      const sidebar = await page.$('.sidebar');
-      expect(sidebar).not.toBeNull();
-    } catch (error) {
-      // Gracefully pass if dev server is not running during simple test runs
-      console.warn('Skipping E2E test: Dev server not running on port 5173', error.message);
-    }
+    await page.goto('http://localhost:5173', { waitUntil: 'networkidle0', timeout: 5000 });
+    await page.waitForSelector('.app', { timeout: 3000 });
+    const sidebar = await page.$('.sidebar');
+    expect(sidebar).not.toBeNull();
   });
 });

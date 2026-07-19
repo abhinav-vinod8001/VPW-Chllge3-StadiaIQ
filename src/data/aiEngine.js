@@ -131,12 +131,13 @@ export async function generateAIResponseAsync(
   venueId = "metlife",
   chatHistory = [],
 ) {
-  const apiKey =
-    import.meta.env.VITE_GROQ_API_KEY ||
-    localStorage.getItem("stadiaiq_groq_key");
+  const apiKey = localStorage.getItem("stadiaiq_groq_key");
   const model = "llama-3.3-70b-versatile";
 
-  if (!apiKey) {
+  // In production, we rely on the Vercel serverless function to provide the key.
+  // We only check localStorage for local testing overrides.
+  const isDev = typeof import.meta.env !== 'undefined' && import.meta.env.DEV;
+  if (!apiKey && isDev) {
     return {
       text: generateAIResponse(query),
       isGroq: false,
@@ -225,17 +226,17 @@ When the user asks for directions to restrooms, concessions, gates, or seats, TA
       { role: "user", content: query },
     ];
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: model,
         messages: messagesPayload,
         max_tokens: 350,
         temperature: 0.3,
+        clientKey: apiKey // Send local override if it exists
       }),
     });
 
@@ -292,9 +293,7 @@ export async function generatePABroadcastAsync(
 ) {
   const incidentOrBottleneck = event;
   const targetLang = language;
-  const apiKey =
-    import.meta.env.VITE_GROQ_API_KEY ||
-    localStorage.getItem("stadiaiq_groq_key");
+  const apiKey = localStorage.getItem("stadiaiq_groq_key");
   const model = "llama-3.3-70b-versatile";
   const venue = getVenue(venueId) || getVenue("metlife");
   const langNames = {
@@ -304,7 +303,8 @@ export async function generatePABroadcastAsync(
     pt: "Portuguese (Português)",
   };
 
-  if (!apiKey) {
+  const isDev = typeof import.meta.env !== 'undefined' && import.meta.env.DEV;
+  if (!apiKey && isDev) {
     const scripts = {
       en: `📢 **PUBLIC ADDRESS ANNOUNCEMENT (ENGLISH)**\n\n"Attention fans at ${venue.name}: We are currently experiencing ${incidentOrBottleneck.type || incidentOrBottleneck} near ${incidentOrBottleneck.location || "Concourse Gate 2"}. Please follow the instructions of security stewards and use express step-free lanes via Gate 4 or Gate 1. Thank you for your cooperation."`,
       es: `📢 **ANUNCIO DE AUDIO INFORMATIVO (ESPAÑOL)**\n\n"Atención aficionados en ${venue.name}: Actualmente reportamos ${incidentOrBottleneck.type || incidentOrBottleneck} cerca de ${incidentOrBottleneck.location || "Puerta 2"}. Por favor sigan las instrucciones del personal y utilicen los accesos rápidos en la Puerta 4 o Puerta 1. Gracias por su cooperación."`,
@@ -327,17 +327,17 @@ Write an authoritative, calm, clear, and action-oriented public address announce
 
 Direct fans clearly on how to proceed safely and smoothly (e.g., recommend express Gate 4 or step-free routes). Keep the script exact, professional, and under 60 words so it can be broadcast clearly over concourse speakers and LED ribbon displays right now. Prefix with 📢 **PA BROADCAST SCRIPT (${targetLang.toUpperCase()})**:`;
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: model,
         messages: [{ role: "user", content: prompt }],
         max_tokens: 150,
         temperature: 0.2,
+        clientKey: apiKey
       }),
     });
 
