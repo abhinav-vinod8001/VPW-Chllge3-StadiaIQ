@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import ChatOverlay from './components/ChatOverlay';
-import WelcomeSetupModal from './components/WelcomeSetupModal';
+import React, { useState, useEffect } from "react";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import ChatOverlay from "./components/ChatOverlay";
+import WelcomeSetupModal from "./components/WelcomeSetupModal";
 
 // Sections
-import HomeSection from './components/sections/HomeSection';
-import MatchesSection from './components/sections/MatchesSection';
-import RouteSection from './components/sections/RouteSection';
-import StadiumMapSection from './components/sections/StadiumMapSection';
-import CrowdSection from './components/sections/CrowdSection';
-import TransportSection from './components/sections/TransportSection';
-import AccessibilitySection from './components/sections/AccessibilitySection';
-import SustainabilitySection from './components/sections/SustainabilitySection';
-import OperationsSection from './components/sections/OperationsSection';
+import HomeSection from "./components/sections/HomeSection";
+import MatchesSection from "./components/sections/MatchesSection";
+import RouteSection from "./components/sections/RouteSection";
+import StadiumMapSection from "./components/sections/StadiumMapSection";
+import CrowdSection from "./components/sections/CrowdSection";
+import TransportSection from "./components/sections/TransportSection";
+import AccessibilitySection from "./components/sections/AccessibilitySection";
+import SustainabilitySection from "./components/sections/SustainabilitySection";
+import OperationsSection from "./components/sections/OperationsSection";
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState("home");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [setupModalOpen, setSetupModalOpen] = useState(false);
-  const [selectedVenueId, setSelectedVenueId] = useState('metlife');
+  const [selectedVenueId, setSelectedVenueId] = useState("metlife");
   const [selectedMatchId, setSelectedMatchId] = useState(null);
 
   useEffect(() => {
-    const completed = localStorage.getItem('stadiaiq_setup_completed');
+    const completed = localStorage.getItem("stadiaiq_setup_completed");
     if (!completed) {
       setSetupModalOpen(true);
     } else {
-      const storedVenue = localStorage.getItem('stadiaiq_venue');
-      const storedMatch = localStorage.getItem('stadiaiq_match_id');
+      const storedVenue = localStorage.getItem("stadiaiq_venue");
+      const storedMatch = localStorage.getItem("stadiaiq_match_id");
       if (storedVenue) setSelectedVenueId(storedVenue);
       if (storedMatch) setSelectedMatchId(storedMatch);
     }
@@ -42,26 +42,50 @@ export default function App() {
 
   const renderSection = () => {
     switch (activeSection) {
-      case 'home':
-        return <HomeSection onNavigate={setActiveSection} onOpenChat={() => setChatOpen(true)} selectedVenueId={selectedVenueId} selectedMatchId={selectedMatchId} />;
-      case 'matches':
-        return <MatchesSection onNavigate={setActiveSection} onSelectVenue={setSelectedVenueId} />;
-      case 'route':
-        return <RouteSection selectedVenueId={selectedVenueId} onSelectVenue={setSelectedVenueId} />;
-      case 'navigation':
+      case "home":
+        return (
+          <HomeSection
+            onNavigate={setActiveSection}
+            onOpenChat={() => setChatOpen(true)}
+            selectedVenueId={selectedVenueId}
+            selectedMatchId={selectedMatchId}
+          />
+        );
+      case "matches":
+        return (
+          <MatchesSection
+            onNavigate={setActiveSection}
+            onSelectVenue={setSelectedVenueId}
+          />
+        );
+      case "route":
+        return (
+          <RouteSection
+            selectedVenueId={selectedVenueId}
+            onSelectVenue={setSelectedVenueId}
+          />
+        );
+      case "navigation":
         return <StadiumMapSection />;
-      case 'crowd':
+      case "crowd":
         return <CrowdSection />;
-      case 'transport':
+      case "transport":
         return <TransportSection />;
-      case 'accessibility':
+      case "accessibility":
         return <AccessibilitySection />;
-      case 'sustainability':
+      case "sustainability":
         return <SustainabilitySection />;
-      case 'operations':
+      case "operations":
         return <OperationsSection selectedVenueId={selectedVenueId} />;
       default:
-        return <HomeSection onNavigate={setActiveSection} onOpenChat={() => setChatOpen(true)} selectedVenueId={selectedVenueId} selectedMatchId={selectedMatchId} />;
+        return (
+          <HomeSection
+            onNavigate={setActiveSection}
+            onOpenChat={() => setChatOpen(true)}
+            selectedVenueId={selectedVenueId}
+            selectedMatchId={selectedMatchId}
+          />
+        );
     }
   };
 
@@ -84,9 +108,7 @@ export default function App() {
           selectedMatchId={selectedMatchId}
         />
 
-        <main className="main__content">
-          {renderSection()}
-        </main>
+        <main className="main__content">{renderSection()}</main>
       </div>
 
       <ChatOverlay
