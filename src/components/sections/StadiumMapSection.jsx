@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Compass, Search, MapPin, CheckCircle, Info } from 'lucide-react';
+import { Compass, Search, CheckCircle, Info } from 'lucide-react';
 import { generateAIResponse } from '../../data/aiEngine';
 
 export default function StadiumMapSection() {
@@ -195,6 +195,7 @@ export default function StadiumMapSection() {
     drawMap();
     window.addEventListener('resize', drawMap);
     return () => window.removeEventListener('resize', drawMap);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSection]);
 
   const handleCanvasClick = (e) => {

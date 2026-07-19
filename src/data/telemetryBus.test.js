@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getGlobalTelemetry, subscribeTelemetry, resolveIncidentGlobal } from './telemetryBus';
+import { getGlobalTelemetry, resolveIncidentGlobal } from './telemetryBus';
 
 describe('telemetryBus', () => {
   beforeEach(() => {

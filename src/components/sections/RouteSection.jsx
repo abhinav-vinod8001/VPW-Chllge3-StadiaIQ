@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Navigation, Car, Train, Bus, Clock, AlertTriangle, ShieldCheck, CheckCircle, ExternalLink, Thermometer, Wind } from 'lucide-react';
+import { Navigation, Car, Train, Bus, AlertTriangle, ShieldCheck, ExternalLink } from 'lucide-react';
 import { venues, getVenue } from '../../data/matchData';
 import { useLiveTelemetry } from '../../data/telemetryBus';
 import { fetchLiveWeather } from '../../data/liveWeather';

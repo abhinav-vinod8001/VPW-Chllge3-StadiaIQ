@@ -3,13 +3,13 @@ import {
   Users, DoorOpen, Thermometer, Leaf, Trophy, MapPin, Compass, Train,
   Accessibility, Bot, AlertTriangle, Sparkles, Clock, Calendar
 } from 'lucide-react';
-import { getLiveMatches, getVenue, getUpcomingMatches, getTodaysMatches, getMatchById, getMatchStatusDisplay, formatDate } from '../../data/matchData';
+import { getVenue, getUpcomingMatches, getTodaysMatches, getMatchById, getMatchStatusDisplay, formatDate } from '../../data/matchData';
 import { useLiveTelemetry } from '../../data/telemetryBus';
 import { fetchLiveWeather } from '../../data/liveWeather';
 
-export default function HomeSection({ onNavigate, onOpenChat, selectedVenueId = 'metlife', selectedMatchId = null }) {
+export default function HomeSection({ onNavigate, onOpenChat, selectedVenueId = 'metlife' }) {
+  const selectedMatchId = localStorage.getItem('stadiaiq_match_id');
   const activeMatch = selectedMatchId ? getMatchById(selectedMatchId) : null;
-  const liveMatches = getLiveMatches();
   const todaysMatches = getTodaysMatches();
   const liveVenue = getVenue(selectedVenueId) || getVenue('metlife');
   const upcomingMatches = getUpcomingMatches().slice(0, 4);

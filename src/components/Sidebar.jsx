@@ -30,23 +30,25 @@ export default function Sidebar({ activeSection, onNavigate, sidebarOpen, onClos
         <div className="sidebar__logo">⚽</div>
         <div>
           <div className="sidebar__title">StadiaIQ</div>
-          <div class="sidebar__subtitle">FIFA World Cup 2026™</div>
+          <div className="sidebar__subtitle">FIFA World Cup 2026™</div>
         </div>
       </div>
 
       <nav className="sidebar__nav">
         {navItems.map((item) => (
-          <div
+          <button
             key={item.id}
             className={`sidebar__nav-item ${activeSection === item.id ? 'active' : ''}`}
             onClick={() => {
               onNavigate(item.id);
               if (onCloseSidebar) onCloseSidebar();
             }}
+            aria-label={`Navigate to ${item.label}`}
+            style={{ width: '100%', textAlign: 'left', background: 'none', border: 'none', font: 'inherit', cursor: 'pointer', padding: 0 }}
           >
             <span className="sidebar__nav-icon">{item.icon}</span>
             <span>{item.label}</span>
-          </div>
+          </button>
         ))}
       </nav>
 

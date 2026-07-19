@@ -38,7 +38,7 @@ export default function OperationsSection({ selectedVenueId = 'metlife' }) {
     try {
       const res = await generatePABroadcastAsync({ type: paTarget, location: paTarget }, paLang, selectedVenueId);
       setPaResult(res);
-    } catch (err) {
+    } catch {
       setPaResult({
         script: `📢 **PA SCRIPT (` + paLang.toUpperCase() + `)**\n\nAttention fans: Regarding ` + paTarget + `, please follow steward instructions and use Gate 4 or Gate 1 for express entry.`,
         isGroq: false,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Globe, MapPin, Ticket, ShieldCheck, CheckCircle, Sparkles, UserCheck, X, Calendar, Clock, Trophy } from 'lucide-react';
-import { venues, getTodaysMatches, getUpcomingMatches, getLiveMatches, getVenue, getMatchStatusDisplay, formatDate } from '../data/matchData';
+import { getTodaysMatches, getUpcomingMatches, getLiveMatches, getVenue, getMatchStatusDisplay, formatDate } from '../data/matchData';
 
 export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }) {
   const [language, setLanguage] = useState('en');
@@ -50,6 +50,7 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
         setSelectedMatchId(upcomingMatches[0].id);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!isOpen) return null;
