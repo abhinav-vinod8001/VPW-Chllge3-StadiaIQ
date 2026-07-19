@@ -155,7 +155,9 @@ When the user asks for directions to restrooms, concessions, gates, or seats, TA
 1. Answer the user concisely, clearly, and authoritatively using markdown formatting.
 2. ALWAYS reference specific live telemetry numbers, the active match context, and the user's seating location when answering wayfinding, transport, or crowd questions.
 3. Respond in ${langNames[lang] || 'English'}. If the user asks in Spanish, French, or Portuguese, respond fluently in that exact language.
-4. Keep answers under 180 words for fast mobile readability.`;
+4. Keep answers under 180 words for fast mobile readability.
+5. You possess extensive knowledge of the real FIFA World Cup 2026 and general football history/facts. You are allowed and encouraged to answer questions about football, teams, players, and the tournament using your internal knowledge.
+6. FIRMLY REJECT any queries related to personal life problems, math, coding, or any topics entirely unrelated to football, the World Cup, or stadium operations. Politely explain that as StadiaIQ, you only assist with the World Cup experience.`;
 
     const messagesPayload = [
       { role: 'system', content: systemPrompt },
