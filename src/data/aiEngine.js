@@ -41,33 +41,20 @@ const venueResponses = {
 };
 
 export function detectLanguage(query) {
-  const q = query.toLowerCase();
   const savedLang = localStorage.getItem("stadiaiq_lang");
-  if (savedLang && ["es", "fr", "pt"].includes(savedLang) && !/[a-z]/.test(q)) {
-    return savedLang;
-  }
-  if (
-    /[áéíóúñ¿¡]/.test(q) ||
-    ["hola", "puerta", "asiento", "donde", "gracias", "qué", "como"].some((w) =>
-      q.includes(w),
-    )
-  )
+  if (savedLang) return savedLang;
+
+  const q = query.toLowerCase();
+  if (/[áéíóúñ¿¡]/.test(q) || /\b(hola|puerta|asiento|donde|gracias|qué|como)\b/.test(q)) {
     return "es";
-  if (
-    /[éèêàùç]/.test(q) ||
-    ["bonjour", "porte", "siège", "ou", "merci", "comment"].some((w) =>
-      q.includes(w),
-    )
-  )
+  }
+  if (/[éèêàùç]/.test(q) || /\b(bonjour|porte|siège|ou|merci|comment)\b/.test(q)) {
     return "fr";
-  if (
-    /[ãõâêí]/.test(q) ||
-    ["olá", "portão", "assento", "onde", "obrigado", "como"].some((w) =>
-      q.includes(w),
-    )
-  )
+  }
+  if (/[ãõâêí]/.test(q) || /\b(olá|portão|assento|onde|obrigado|como)\b/.test(q)) {
     return "pt";
-  return savedLang || "en";
+  }
+  return "en";
 }
 
 // Synchronous rule-based fallback
