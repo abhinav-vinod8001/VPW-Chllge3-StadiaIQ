@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Accessibility, Check, MapPin, Navigation } from 'lucide-react';
+import { Accessibility, Check, Navigation } from 'lucide-react';
 
 export default function AccessibilitySection() {
   const [from, setFrom] = useState('Gate 1 (North Entrance)');

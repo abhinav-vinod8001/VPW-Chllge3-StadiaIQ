@@ -90,6 +90,7 @@ export default function Header({ activeSection, onToggleSidebar, onToggleChat, o
 
         {/* Fan Pass Badge */}
         <button onClick={onOpenSetupModal} title="Change match, seat, or language"
+          aria-label="Fan Settings and Check In"
           style={{
             display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.3rem 0.65rem',
             background: 'linear-gradient(135deg, rgba(30,58,138,0.08), rgba(37,99,235,0.12))',
@@ -102,9 +103,9 @@ export default function Header({ activeSection, onToggleSidebar, onToggleChat, o
         </button>
 
         {/* AI Assistant */}
-        <button onClick={onToggleChat} className="btn btn--primary btn--sm"
+        <button onClick={onToggleChat} className="btn btn--primary btn--sm" aria-label="Open AI Assistant"
           style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-          <Bot size={15} /> AI
+          <Bot size={15} aria-hidden="true" /> AI
         </button>
       </div>
     </header>

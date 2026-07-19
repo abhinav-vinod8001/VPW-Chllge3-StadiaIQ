@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Leaf, Award, Recycle, Sun, Droplets, CheckCircle, Sparkles } from 'lucide-react';
+import { Leaf, Award, Recycle, Sun, Droplets, Sparkles } from 'lucide-react';
 
 export default function SustainabilitySection() {
   const [transportMode, setTransportMode] = useState('transit');

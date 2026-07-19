@@ -3,6 +3,17 @@ import { Bot, Send, X, Sparkles, Cpu, Zap } from 'lucide-react';
 import { generateAIResponseAsync } from '../data/aiEngine';
 import { getGlobalTelemetry } from '../data/telemetryBus';
 
+const renderFormattedText = (text) => {
+  if (!text) return null;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>;
+    }
+    return <React.Fragment key={index}>{part}</React.Fragment>;
+  });
+};
+
 export default function ChatOverlay({ isOpen, onClose, activeSection, selectedVenueId = 'metlife' }) {
   const [messages, setMessages] = useState([
     {
@@ -104,9 +115,7 @@ export default function ChatOverlay({ isOpen, onClose, activeSection, selectedVe
               position: 'relative'
             }}
           >
-            <div dangerouslySetInnerHTML={{
-              __html: msg.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            }} />
+            <div>{renderFormattedText(msg.text)}</div>
             {msg.sender === 'ai' && msg.latency !== undefined && (
               <div style={{
                 display: 'flex', alignItems: 'center', gap: '4px', marginTop: '0.5rem',
@@ -154,8 +163,8 @@ export default function ChatOverlay({ isOpen, onClose, activeSection, selectedVe
           onChange={(e) => setInput(e.target.value)}
           style={{ flex: 1, padding: '0.5rem 0.75rem' }}
         />
-        <button type="submit" className="btn btn--primary" style={{ padding: '0.5rem 0.9rem' }}>
-          <Send size={16} />
+        <button type="submit" className="btn btn--primary" style={{ padding: '0.5rem 0.9rem' }} aria-label="Send Message">
+          <Send size={16} aria-hidden="true" />
         </button>
       </form>
     </div>

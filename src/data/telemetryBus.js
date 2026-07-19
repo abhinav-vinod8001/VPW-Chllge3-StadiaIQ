@@ -15,6 +15,16 @@ let globalTelemetryState = {
     gate3: 6,
     gate4: 2
   },
+  concessionWaits: {
+    stand12_north: 4,
+    stand24_east: 12, // Bottleneck
+    stand08_west: 2
+  },
+  restroomQueues: {
+    sec112_mens: 2,
+    sec114_womens: 8, // Bottleneck
+    sec118_family: 1
+  },
   activeBottlenecks: 'Gate 2 East Concourse (16m wait)',
   recommendedGate: 'Gate 4 West Stand (2m express wait)',
   transitCountdowns: {
@@ -56,12 +66,19 @@ if (typeof window !== 'undefined') {
     const gate2Change = (Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0);
     const newGate2 = Math.min(25, Math.max(10, globalTelemetryState.gateWaitTimes.gate2 + gate2Change));
 
+    const concessionChange = (Math.random() > 0.7 ? (Math.random() > 0.5 ? 1 : -1) : 0);
+    const newConcession = Math.min(20, Math.max(5, globalTelemetryState.concessionWaits.stand24_east + concessionChange));
+
     globalTelemetryState = {
       ...globalTelemetryState,
       attendance: newAttendance,
       gateWaitTimes: {
         ...globalTelemetryState.gateWaitTimes,
         gate2: newGate2
+      },
+      concessionWaits: {
+        ...globalTelemetryState.concessionWaits,
+        stand24_east: newConcession
       },
       activeBottlenecks: `Gate 2 East Concourse (${newGate2}m wait)`,
       transitCountdowns: {

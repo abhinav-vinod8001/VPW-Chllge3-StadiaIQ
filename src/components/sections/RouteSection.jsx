@@ -5,7 +5,6 @@ import { useLiveTelemetry } from '../../data/telemetryBus';
 import { fetchLiveWeather } from '../../data/liveWeather';
 
 export default function RouteSection({ selectedVenueId, onSelectVenue }) {
-  const [activeTab, setActiveTab] = useState('driving');
   const [userLocation, setUserLocation] = useState('Manhattan (Penn Station, NY)');
   const venue = getVenue(selectedVenueId) || getVenue('metlife');
   const telemetry = useLiveTelemetry();

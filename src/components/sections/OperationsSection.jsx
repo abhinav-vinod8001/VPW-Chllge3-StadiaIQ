@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BarChart3, AlertCircle, CheckCircle, Clock, ShieldCheck, Cpu, RefreshCw, Volume2, Globe, Sparkles, Copy, Zap } from 'lucide-react';
+import { BarChart3, AlertCircle, CheckCircle, Clock, ShieldCheck, Cpu, RefreshCw, Volume2, Globe, Sparkles, Copy } from 'lucide-react';
 import { useLiveTelemetry, resolveIncidentGlobal } from '../../data/telemetryBus';
 import { generatePABroadcastAsync } from '../../data/aiEngine';
 
@@ -20,7 +20,7 @@ export default function OperationsSection({ selectedVenueId = 'metlife' }) {
     setIncidents(telemetry.incidents);
   }, [telemetry.incidents]);
 
-  const [staffing, setStaffing] = useState({
+  const [staffing] = useState({
     stewards: { active: 480, total: 500, status: 'Optimal (96%)' },
     medical: { active: 42, total: 45, status: 'Optimal (93%)' },
     security: { active: 310, total: 320, status: 'Optimal (97%)' },

@@ -53,6 +53,13 @@ export function detectLanguage(query) {
 }
 
 // Synchronous rule-based fallback
+/**
+ * Fallback static AI response generator.
+ * Used when the live API is unreachable or offline.
+ * 
+ * @param {string} query - The user's input query.
+ * @returns {string} The statically generated response.
+ */
 export function generateAIResponse(query) {
   const q = query.toLowerCase();
   const lang = detectLanguage(query);
@@ -74,8 +81,16 @@ export function generateAIResponse(query) {
 }
 
 // Real-World Asynchronous Groq API Client with Live Telemetry & Fan Setup Injection
+/**
+ * Generates a real-time AI response by querying the Vercel serverless proxy,
+ * injecting live telemetry and match context into the system prompt.
+ * 
+ * @param {string} query - The user's chat message.
+ * @param {string} venueId - The current venue ID.
+ * @param {Array<{sender: string, text: string}>} chatHistory - Previous chat messages for context.
+ * @returns {Promise<{text: string, isGroq: boolean, latency: number, model?: string, tokens?: number}>} The AI response payload.
+ */
 export async function generateAIResponseAsync(query, venueId = 'metlife', chatHistory = []) {
-  // Always use the secure environment/locked API key first, or stored key if exists
   const apiKey = import.meta.env.VITE_GROQ_API_KEY || localStorage.getItem('stadiaiq_groq_key');
   const model = 'llama-3.3-70b-versatile';
 
@@ -130,6 +145,8 @@ When the user asks for directions to restrooms, concessions, gates, or seats, TA
 • Weather: ${weather.temp}°C, ${weather.condition}, Wind: ${weather.windSpeed} km/h, Humidity: ${weather.humidity}%
 • Live Attendance: ${telemetry.attendance.toLocaleString()} fans (${telemetry.capacityPercentage}% capacity)
 • Turnstile Gate Wait Times: Gate 1 (${telemetry.gateWaitTimes.gate1}m), Gate 2 (${telemetry.gateWaitTimes.gate2}m - BOTTLENECK), Gate 3 (${telemetry.gateWaitTimes.gate3}m), Gate 4 (${telemetry.gateWaitTimes.gate4}m - EXPRESS)
+• Concession Wait Times: North Stand 12 (${telemetry.concessionWaits.stand12_north}m), East Stand 24 (${telemetry.concessionWaits.stand24_east}m), West Stand 8 (${telemetry.concessionWaits.stand08_west}m)
+• Restroom Queues: Sec 112 Mens (${telemetry.restroomQueues.sec112_mens}m), Sec 114 Womens (${telemetry.restroomQueues.sec114_womens}m), Sec 118 Family (${telemetry.restroomQueues.sec118_family}m)
 • Active Incidents: ${telemetry.incidents.filter(i => i.status !== 'Resolved').map(i => `${i.id}: ${i.type} at ${i.location}`).join(' | ') || 'None'}
 • Live Traffic Delays: ${telemetry.liveAlerts.map(a => `${a.road} (${a.status}, +${a.delay}m delay)`).join('; ')}
 • Transit Departure Countdowns: Metro Green Line departs in ${Math.round(telemetry.transitCountdowns.metroGreen / 60)}m ${telemetry.transitCountdowns.metroGreen % 60}s.
@@ -146,10 +163,9 @@ When the user asks for directions to restrooms, concessions, gates, or seats, TA
       { role: 'user', content: query }
     ];
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey.trim()}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -189,7 +205,15 @@ When the user asks for directions to restrooms, concessions, gates, or seats, TA
   }
 }
 
-// Generate multilingual PA Broadcast via locked Groq model
+/**
+ * Generates a multilingual Public Address (PA) broadcast script for emergency 
+ * or operational situations using the live AI engine.
+ * 
+ * @param {Object|string} incidentOrBottleneck - The incident object or string describing the situation.
+ * @param {string} targetLang - The ISO language code for the broadcast.
+ * @param {string} venueId - The venue ID where the broadcast will occur.
+ * @returns {Promise<{script: string, isGroq: boolean, latency: number}>} The generated PA script.
+ */
 export async function generatePABroadcastAsync(incidentOrBottleneck, targetLang = 'en', venueId = 'metlife') {
   const apiKey = import.meta.env.VITE_GROQ_API_KEY || localStorage.getItem('stadiaiq_groq_key');
   const model = 'llama-3.3-70b-versatile';
@@ -219,10 +243,9 @@ Write an authoritative, calm, clear, and action-oriented public address announce
 
 Direct fans clearly on how to proceed safely and smoothly (e.g., recommend express Gate 4 or step-free routes). Keep the script exact, professional, and under 60 words so it can be broadcast clearly over concourse speakers and LED ribbon displays right now. Prefix with 📢 **PA BROADCAST SCRIPT (${targetLang.toUpperCase()})**:`;
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey.trim()}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
