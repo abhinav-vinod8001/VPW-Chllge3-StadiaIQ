@@ -3,6 +3,9 @@ import { Users, Activity, ShieldAlert, Sparkles } from "lucide-react";
 
 export default function CrowdSection() {
   const canvasRef = useRef(null);
+  
+  const busiestZone = "Gate 2 (East Concourse)";
+  const quietestZone = "Gate 4 (West Stand)";
 
   useEffect(() => {
     const canvas = canvasRef.current;
