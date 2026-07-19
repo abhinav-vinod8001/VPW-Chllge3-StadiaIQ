@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Globe, MapPin, Ticket, ShieldCheck, CheckCircle, Sparkles, UserCheck, X, Calendar, Clock, Trophy } from 'lucide-react';
 import { venues, getTodaysMatches, getUpcomingMatches, getLiveMatches, getVenue, getMatchStatusDisplay, formatDate } from '../data/matchData';
 
@@ -95,7 +96,7 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
   const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
   return (
-    <div style={{
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title" style={{
       position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
       background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(10px)',
       zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -122,7 +123,7 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
                 <div style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '1px', color: '#f59e0b', textTransform: 'uppercase' }}>
                   FIFA World Cup 2026™ • StadiaIQ
                 </div>
-                <h2 style={{ fontSize: '1.35rem', fontWeight: 900, margin: '2px 0 0 0', lineHeight: 1.2 }}>
+                <h2 id="modal-title" style={{ fontSize: '1.35rem', fontWeight: 900, margin: '2px 0 0 0', lineHeight: 1.2 }}>
                   Match-Day Check-In
                 </h2>
               </div>
@@ -247,6 +248,9 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
               {languages.map(lang => (
                 <div
                   key={lang.code}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') setLanguage(lang.code); }}
                   onClick={() => setLanguage(lang.code)}
                   style={{
                     display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '0.6rem 0.85rem',
@@ -291,18 +295,18 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
             {!isStaff ? (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.6rem' }}>
                 <div>
-                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>SECTION</label>
-                  <input type="text" className="input" value={section} onChange={(e) => setSection(e.target.value)}
-                    placeholder="e.g. 114" style={{ fontWeight: 700, textAlign: 'center' }} />
+                  <label htmlFor="input-section" className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>SECTION</label>
+                  <input id="input-section" type="text" className="input" value={section} onChange={(e) => setSection(e.target.value)}
+                    placeholder="e.g. 114" style={{ fontWeight: 700, textAlign: 'center' }} autoFocus />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>ROW</label>
-                  <input type="text" className="input" value={row} onChange={(e) => setRow(e.target.value)}
+                  <label htmlFor="input-row" className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>ROW</label>
+                  <input id="input-row" type="text" className="input" value={row} onChange={(e) => setRow(e.target.value)}
                     placeholder="e.g. 12" style={{ fontWeight: 700, textAlign: 'center' }} />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>SEAT</label>
-                  <input type="text" className="input" value={seat} onChange={(e) => setSeat(e.target.value)}
+                  <label htmlFor="input-seat" className="text-xs font-bold text-secondary" style={{ display: 'block', marginBottom: '3px' }}>SEAT</label>
+                  <input id="input-seat" type="text" className="input" value={seat} onChange={(e) => setSeat(e.target.value)}
                     placeholder="e.g. 15" style={{ fontWeight: 700, textAlign: 'center' }} />
                 </div>
               </div>
@@ -332,3 +336,9 @@ export default function WelcomeSetupModal({ isOpen, onClose, onSavePreferences }
     </div>
   );
 }
+
+WelcomeSetupModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSavePreferences: PropTypes.func
+};

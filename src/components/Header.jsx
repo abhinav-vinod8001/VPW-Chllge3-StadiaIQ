@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Menu, Bot, Ticket, UserCheck } from 'lucide-react';
 import { getVenue, getMatchById, getMatchStatusDisplay } from '../data/matchData';
 import { fetchLiveWeather } from '../data/liveWeather';
@@ -111,3 +112,12 @@ export default function Header({ activeSection, onToggleSidebar, onToggleChat, o
     </header>
   );
 }
+
+Header.propTypes = {
+  activeSection: PropTypes.string,
+  onToggleSidebar: PropTypes.func.isRequired,
+  onToggleChat: PropTypes.func,
+  onOpenSetupModal: PropTypes.func.isRequired,
+  selectedVenueId: PropTypes.string,
+  selectedMatchId: PropTypes.string
+};

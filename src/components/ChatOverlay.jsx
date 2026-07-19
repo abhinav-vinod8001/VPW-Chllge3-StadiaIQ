@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { Bot, Send, X, Sparkles, Cpu, Zap } from 'lucide-react';
 import { generateAIResponseAsync } from '../data/aiEngine';
 import { getGlobalTelemetry } from '../data/telemetryBus';
@@ -170,3 +171,9 @@ export default function ChatOverlay({ isOpen, onClose, activeSection, selectedVe
     </div>
   );
 }
+
+ChatOverlay.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  selectedVenueId: PropTypes.string
+};
