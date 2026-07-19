@@ -9,6 +9,9 @@ import {
   Accessibility,
   Leaf,
   BarChart3,
+  Moon,
+  Sun,
+  Download,
 } from "lucide-react";
 
 export default function Sidebar({
@@ -17,6 +20,39 @@ export default function Sidebar({
   sidebarOpen,
   onCloseSidebar,
 }) {
+  const [theme, setTheme] = React.useState(
+    localStorage.getItem("stadiaiq_theme") || "light"
+  );
+  const [installPrompt, setInstallPrompt] = React.useState(null);
+
+  React.useEffect(() => {
+    // Apply theme
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("stadiaiq_theme", theme);
+
+    // Listen for PWA install prompt
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    return () =>
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+  }, [theme]);
+
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === "accepted") {
+      setInstallPrompt(null);
+    }
+  };
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
   const navItems = [
     { id: "home", label: "Home", icon: <Home size={18} /> },
     { id: "matches", label: "Matches & Venues", icon: <Trophy size={18} /> },
@@ -74,6 +110,28 @@ export default function Sidebar({
       </nav>
 
       <div className="sidebar__footer">
+        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem", flexDirection: "column" }}>
+          <button
+            onClick={toggleTheme}
+            className="btn btn--secondary btn--sm"
+            aria-label="Toggle Theme"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
+            {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+            {theme === "light" ? "Dark Mode" : "Light Mode"}
+          </button>
+          
+          {installPrompt && (
+            <button
+              onClick={handleInstallClick}
+              className="btn btn--primary btn--sm"
+              aria-label="Install App"
+              style={{ width: "100%", justifyContent: "center" }}
+            >
+              <Download size={14} /> Install App
+            </button>
+          )}
+        </div>
         © 2026 StadiaIQ™ • Built for Virtual Prompt Wars Challenge 3
       </div>
     </aside>

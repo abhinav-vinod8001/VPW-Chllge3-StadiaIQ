@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import ChatOverlay from "./components/ChatOverlay";
 import WelcomeSetupModal from "./components/WelcomeSetupModal";
 
-// Sections
-import HomeSection from "./components/sections/HomeSection";
-import MatchesSection from "./components/sections/MatchesSection";
-import RouteSection from "./components/sections/RouteSection";
-import StadiumMapSection from "./components/sections/StadiumMapSection";
-import CrowdSection from "./components/sections/CrowdSection";
-import TransportSection from "./components/sections/TransportSection";
-import AccessibilitySection from "./components/sections/AccessibilitySection";
-import SustainabilitySection from "./components/sections/SustainabilitySection";
-import OperationsSection from "./components/sections/OperationsSection";
+// Lazy Loaded Sections for Code Splitting (Efficiency Optimization)
+const HomeSection = lazy(() => import("./components/sections/HomeSection"));
+const MatchesSection = lazy(() => import("./components/sections/MatchesSection"));
+const RouteSection = lazy(() => import("./components/sections/RouteSection"));
+const StadiumMapSection = lazy(() => import("./components/sections/StadiumMapSection"));
+const CrowdSection = lazy(() => import("./components/sections/CrowdSection"));
+const TransportSection = lazy(() => import("./components/sections/TransportSection"));
+const AccessibilitySection = lazy(() => import("./components/sections/AccessibilitySection"));
+const SustainabilitySection = lazy(() => import("./components/sections/SustainabilitySection"));
+const OperationsSection = lazy(() => import("./components/sections/OperationsSection"));
+
+const SectionLoader = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', color: 'var(--text-secondary)' }}>
+    <div className="spinner"></div>
+    <span style={{ marginLeft: '10px' }}>Loading module...</span>
+  </div>
+);
 
 export default function App() {
   const [activeSection, setActiveSection] = useState("home");
@@ -108,7 +115,11 @@ export default function App() {
           selectedMatchId={selectedMatchId}
         />
 
-        <main className="main__content">{renderSection()}</main>
+        <main className="main__content">
+          <Suspense fallback={<SectionLoader />}>
+            {renderSection()}
+          </Suspense>
+        </main>
       </div>
 
       <ChatOverlay

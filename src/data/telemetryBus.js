@@ -116,19 +116,41 @@ if (typeof window !== "undefined") {
     const gate2Change =
       Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0;
     const newGate2 = Math.min(
-      25,
+      45, // allowed to spike high for bottlenecks
       Math.max(10, globalTelemetryState.gateWaitTimes.gate2 + gate2Change),
     );
 
     const concessionChange =
       Math.random() > 0.7 ? (Math.random() > 0.5 ? 1 : -1) : 0;
     const newConcession = Math.min(
-      20,
+      30,
       Math.max(
         5,
         globalTelemetryState.concessionWaits.stand24_east + concessionChange,
       ),
     );
+    
+    // 4. Random Incident Generation (Simulating a chaotic stadium)
+    let newIncidents = [...globalTelemetryState.incidents];
+    if (Math.random() > 0.95) {
+      // 5% chance every 3 seconds to generate a new random incident
+      const incidentTypes = ["Medical Emergency", "Gate Surging", "Concession Fire Alarm", "Unruly Fan", "VIP Escort Delay"];
+      const locations = ["Gate 4", "Section 114", "West Concourse", "Club Level", "South Parking"];
+      const randomType = incidentTypes[Math.floor(Math.random() * incidentTypes.length)];
+      const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+      
+      newIncidents.unshift({
+        id: `INC-${Math.floor(Math.random() * 900) + 100}`,
+        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) + " ET",
+        type: randomType,
+        location: randomLocation,
+        status: "Dispatched",
+        priority: randomType === "Medical Emergency" ? "Critical" : "High",
+        color: randomType === "Medical Emergency" ? "danger" : "warning",
+      });
+      // Keep only last 5 incidents to prevent overflow
+      if (newIncidents.length > 5) newIncidents.pop();
+    }
 
     globalTelemetryState = {
       ...globalTelemetryState,
@@ -142,6 +164,7 @@ if (typeof window !== "undefined") {
         stand24_east: newConcession,
       },
       activeBottlenecks: `Gate 2 East Concourse (${newGate2}m wait)`,
+      incidents: newIncidents,
       transitCountdowns: {
         metroGreen: newMetro,
         fanShuttle: newShuttle,

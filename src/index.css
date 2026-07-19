@@ -50,7 +50,32 @@
   --text-muted: var(--color-gray-400);
   --text-on-primary: var(--color-white);
   --text-on-gold: var(--color-gray-900);
+}
 
+[data-theme="dark"] {
+  --color-gray-50: #0f172a;
+  --color-gray-100: #1e293b;
+  --color-gray-200: #334155;
+  --color-gray-300: #475569;
+  --color-gray-800: #f1f5f9;
+  --color-gray-900: #f8fafc;
+  
+  --bg-page: var(--color-gray-50);
+  --bg-card: var(--color-gray-100);
+  --bg-sidebar: #020617;
+  --bg-input: var(--color-gray-900);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  
+  --color-success-bg: rgba(22, 163, 74, 0.15);
+  --color-danger-bg: rgba(220, 38, 38, 0.15);
+  --color-warning-bg: rgba(234, 88, 12, 0.15);
+  --color-info-bg: rgba(2, 132, 199, 0.15);
+}
+
+:root {
   /* Typography */
   --font-family:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;

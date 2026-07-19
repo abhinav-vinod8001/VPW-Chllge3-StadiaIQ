@@ -150,7 +150,33 @@
 <a name='L85'></a><a href='#L85'>85</a>
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
-<a name='L88'></a><a href='#L88'>88</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -161,6 +187,13 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,7 +238,23 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -222,6 +271,9 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -242,37 +294,44 @@
    Powered by Open-Meteo API (Zero-Config)
    ============================================ */
 &nbsp;
-import { venues } from './matchData';
+import { venues } from "./matchData";
 &nbsp;
 const weatherCache = new Map();
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 &nbsp;
 const weatherCodes = {
-  0: { label: 'Clear Sky', icon: '☀️', code: 'clear' },
-  1: { label: 'Mainly Clear', icon: '🌤️', code: 'clear' },
-  2: { label: 'Partly Cloudy', icon: '⛅', code: 'cloudy' },
-  3: { label: 'Overcast', icon: '☁️', code: 'cloudy' },
-  45: { label: 'Foggy', icon: '🌫️', code: 'fog' },
-  48: { label: 'Depositing Rime Fog', icon: '🌫️', code: 'fog' },
-  51: { label: 'Light Drizzle', icon: '🌦️', code: 'rain' },
-  53: { label: 'Moderate Drizzle', icon: '🌧️', code: 'rain' },
-  55: { label: 'Dense Drizzle', icon: '🌧️', code: 'rain' },
-  61: { label: 'Slight Rain', icon: '🌦️', code: 'rain' },
-  63: { label: 'Moderate Rain', icon: '🌧️', code: 'rain' },
-  65: { label: 'Heavy Rain', icon: '⛈️', code: 'storm' },
-  71: { label: 'Slight Snow Fall', icon: '🌨️', code: 'snow' },
-  73: { label: 'Moderate Snow Fall', icon: '❄️', code: 'snow' },
-  75: { label: 'Heavy Snow Fall', icon: '❄️', code: 'snow' },
-  80: { label: 'Rain Showers', icon: '🌦️', code: 'rain' },
-  81: { label: 'Moderate Showers', icon: '🌧️', code: 'rain' },
-  82: { label: 'Violent Rain Showers', icon: '⛈️', code: 'storm' },
-  95: { label: 'Thunderstorm', icon: '⚡', code: 'storm' },
-  96: { label: 'Thunderstorm with Hail', icon: '⛈️', code: 'storm' },
-  99: { label: 'Severe Thunderstorm', icon: '⛈️', code: 'storm' }
+  0: { label: "Clear Sky", icon: "☀️", code: "clear" },
+  1: { label: "Mainly Clear", icon: "🌤️", code: "clear" },
+  2: { label: "Partly Cloudy", icon: "⛅", code: "cloudy" },
+  3: { label: "Overcast", icon: "☁️", code: "cloudy" },
+  45: { label: "Foggy", icon: "🌫️", code: "fog" },
+  48: { label: "Depositing Rime Fog", icon: "🌫️", code: "fog" },
+  51: { label: "Light Drizzle", icon: "🌦️", code: "rain" },
+  53: { label: "Moderate Drizzle", icon: "🌧️", code: "rain" },
+  55: { label: "Dense Drizzle", icon: "🌧️", code: "rain" },
+  61: { label: "Slight Rain", icon: "🌦️", code: "rain" },
+  63: { label: "Moderate Rain", icon: "🌧️", code: "rain" },
+  65: { label: "Heavy Rain", icon: "⛈️", code: "storm" },
+  71: { label: "Slight Snow Fall", icon: "🌨️", code: "snow" },
+  73: { label: "Moderate Snow Fall", icon: "❄️", code: "snow" },
+  75: { label: "Heavy Snow Fall", icon: "❄️", code: "snow" },
+  80: { label: "Rain Showers", icon: "🌦️", code: "rain" },
+  81: { label: "Moderate Showers", icon: "🌧️", code: "rain" },
+  82: { label: "Violent Rain Showers", icon: "⛈️", code: "storm" },
+  95: { label: "Thunderstorm", icon: "⚡", code: "storm" },
+  96: { label: "Thunderstorm with Hail", icon: "⛈️", code: "storm" },
+  99: { label: "Severe Thunderstorm", icon: "⛈️", code: "storm" },
 };
 &nbsp;
+/**
+ * Fetches real-time live weather data for a given venue.
+ * Implements caching (15 min) and fallback telemetry if offline.
+ *
+ * @param {string} venueId - The unique identifier of the venue (e.g., 'metlife')
+ * @returns {Promise&lt;Object&gt;} An object containing temperature, humidity, condition, and status.
+ */
 export async function fetchLiveWeather(venueId) {
-  const venue = venues[venueId] || <span class="branch-1 cbranch-no" title="branch not covered" >venues['metlife'];</span>
+  const venue = venues[venueId] || <span class="branch-1 cbranch-no" title="branch not covered" >venues["metlife"];</span>
   const cacheKey = `${venue.lat},${venue.lng}`;
   const now = Date.now();
 &nbsp;
@@ -286,41 +345,60 @@ export async function fetchLiveWeather(venueId) {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${venue.lat}&amp;longitude=${venue.lng}&amp;current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`;
     const response = await fetch(url);
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error('Weather API HTTP error');</span>
-    
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!response.ok) <span class="cstat-no" title="statement not covered" >throw new Error("Weather API HTTP error");</span>
+&nbsp;
     const raw = await response.json();
     const current = raw.current || {};
-    const codeInfo = weatherCodes[current.weather_code] || { label: 'Clear Sky', icon: '☀️', code: 'clear' };
+    const codeInfo = weatherCodes[current.weather_code] || {
+      label: "Clear Sky",
+      icon: "☀️",
+      code: "clear",
+    };
 &nbsp;
     const result = {
-      temp: current.temperature_2m !== undefined ? Math.round(current.temperature_2m) : 24,
-      humidity: current.relative_humidity_2m !== undefined ? Math.round(current.relative_humidity_2m) : 58,
-      windSpeed: current.wind_speed_10m !== undefined ? Math.round(current.wind_speed_10m) : 12,
+      temp:
+        current.temperature_2m !== undefined
+          ? Math.round(current.temperature_2m)
+          : 24,
+      humidity:
+        current.relative_humidity_2m !== undefined
+          ? Math.round(current.relative_humidity_2m)
+          : 58,
+      windSpeed:
+        current.wind_speed_10m !== undefined
+          ? Math.round(current.wind_speed_10m)
+          : 12,
       condition: codeInfo.label,
       icon: codeInfo.icon,
       code: codeInfo.code,
       venueName: venue.name,
       city: venue.city,
       isLive: true,
-      lastUpdated: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+      lastUpdated: new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
 &nbsp;
     weatherCache.set(cacheKey, { timestamp: now, data: result });
     return result;
   } catch (error) {
-    console.warn('Live weather fetch failed, returning high-accuracy telemetry fallback:', error);
+    console.warn(
+      "Live weather fetch failed, returning high-accuracy telemetry fallback:",
+      error,
+    );
     // Fallback if API fails or offline
     return {
       temp: 24,
       humidity: 60,
       windSpeed: 14,
-      condition: 'Clear Skies (Telemetry Fallback)',
-      icon: '☀️',
-      code: 'clear',
+      condition: "Clear Skies (Telemetry Fallback)",
+      icon: "☀️",
+      code: "clear",
       venueName: venue.name,
       city: venue.city,
       isLive: false,
-      lastUpdated: 'Live Fallback'
+      lastUpdated: "Live Fallback",
     };
   }
 }
@@ -331,7 +409,7 @@ export async function fetchLiveWeather(venueId) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-19T07:31:47.759Z
+                at 2026-07-19T07:54:52.288Z
             </div>
         <script src="../prettify.js"></script>
         <script>
