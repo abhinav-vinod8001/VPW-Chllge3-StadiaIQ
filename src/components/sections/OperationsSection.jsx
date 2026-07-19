@@ -77,7 +77,22 @@ export default function OperationsSection({ selectedVenueId = "metlife" }) {
 
   const handleBroadcastLive = () => {
     setPaBroadcasted(true);
-    setTimeout(() => setPaBroadcasted(false), 4000);
+    
+    // Advanced PA System Simulation: Native Text-to-Speech Integration
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel(); // Stop current speech
+      const utterance = new SpeechSynthesisUtterance(paResult.script);
+      
+      // Match AI's output language to a native voice
+      const voices = window.speechSynthesis.getVoices();
+      const targetLangCode = paLang === "es" ? "es" : paLang === "fr" ? "fr" : "en";
+      const voice = voices.find(v => v.lang.startsWith(targetLangCode));
+      if (voice) utterance.voice = voice;
+      
+      window.speechSynthesis.speak(utterance);
+    }
+
+    setTimeout(() => setPaBroadcasted(false), 6000);
   };
 
   const handleCopyScript = () => {
