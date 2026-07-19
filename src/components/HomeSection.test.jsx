@@ -2,8 +2,7 @@ import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import HomeSection from "./sections/HomeSection";
-import * as matchData from "../data/matchData";
-import * as liveWeather from "../data/liveWeather";
+
 
 vi.mock("../data/telemetryBus", () => ({
   useLiveTelemetry: () => ({
